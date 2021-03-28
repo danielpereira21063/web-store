@@ -106,6 +106,7 @@ class Usuarios extends \Phalcon\Mvc\Model
 
 
     public function signupArmazenar($dados) {
+        $dados['senha'] = password_hash($dados['senha'], PASSWORD_DEFAULT);
         try {
             $query = $this->di
             ->getDb()
@@ -126,15 +127,44 @@ class Usuarios extends \Phalcon\Mvc\Model
         }
     }
 
-    public function emailExiste($email) {
+
+    public function login($dados) {
+        $email = $dados['email'];
+        $senha = $dados['senha'];
         $query = $this->di->getDb()->query("SELECT * FROM usuarios WHERE email = '$email'");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         if(count($result) !== 0) {
-            return true;
+            if(password_verify($senha, $result[0]['senha'])) {
+                //login efetuado com sucesso
+                //criar os dados da sessão
+                return true;
+            }
         } else {
             return false;
         }
     }
+
+
+    public function emailExiste($email) {
+        $query = $this->di->getDb()->query("SELECT * FROM usuarios WHERE email = '$email'");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        
+        return count($result) > 0 ? true : false;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function emailValido($email) {
         if ( filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {

@@ -1,0 +1,19 @@
+<?php if(isset($_SESSION['signup_sucesso'])): ?>
+<div class="container p-5">
+    <div class="col-sm-12 col-md-12 col-xl-12 m-auto text-center">
+    <a href="<?= BASE_URL ?>" style="font-weight: bolder; font-size: 16pt;">Web-Store
+		<img src="<?= BASE_URL . '/img/background-ico.png' ?>" alt="Plano de fundo" class="img-fluid logo">
+	</a>
+    </div>
+    <!-- <div class="row"> -->
+        <div class="m-auto">
+            <h4 class="alert alert-success text-center mt-5"><?= $_SESSION['signup_sucesso'] ?></h4>
+            <div class="text-center mt-2">
+                <a class="btn btn-primary" href="<?= BASE_URL ?>">Página inicial</a>
+                <a class="btn btn-success" href="<?= BASE_URL . '/usuario/login' ?>">Fazer login</a>
+            </div>
+        </div>
+    <!-- </div> -->
+</div>
+<?php session_destroy(); ?>
+<?php endif; ?>

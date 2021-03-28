@@ -10,11 +10,11 @@
 					</div>
 					<hr>
 					<br>
-						<p class="<isset($login_invalido) ? 'alert alert-danger text-center' : ''?>"><?=$login_invalido ?? ''?></p>
-					<form action="<site_url('usuario/login')?>" method="POST">
+						<p class="<?= isset($login_invalido) ? 'alert alert-danger text-center' : ''?>"><?=$login_invalido ?? ''?></p>
+					<form action="<?= BASE_URL . '/usuario/login' ?>" method="POST">
 						<div class="form-group">
 							<label for="email">E-mail: <sup class="text-danger">*</sup></label>
-							<input type="text" name="email" id="email" class="form-control <?= isset($email_erro) ? 'is-invalid' : '' ?>" value="<?= $email ?? '' ?>" placeholder="Digite seu e-mail">
+							<input type="text" name="email" id="email" class="form-control <?= isset($email_erro) ? 'is-invalid' : '' ?> <?= isset($login_invalido) ? 'is-invalid' : '' ?>" value="<?= $dados['email'] ?? '' ?>" placeholder="Digite seu e-mail">
 							<div class="invalid-feedback text-center">
 								<?= $email_erro ?? '' ?>
 							</div>
@@ -22,7 +22,7 @@
 
 						<div class="form-group">
 							<label for="senha">Senha: <sup class="text-danger">*</sup></label>
-							<input type="password" name="senha" id="senha" class="form-control <?= isset($senha_erro) ? 'is-invalid' : '' ?>" value="<?= $senha ?? '' ?>" placeholder="Digite sua senha">
+							<input type="password" name="senha" id="senha" class="form-control <?= isset($senha_erro) ? 'is-invalid' : '' ?> <?= isset($login_invalido) ? 'is-invalid' : '' ?>" value="<?= $dados['senha'] ?? '' ?>" placeholder="Digite sua senha">
 							<div class="invalid-feedback text-center">
 								<?= $senha_erro ?? '' ?>
 							</div>
