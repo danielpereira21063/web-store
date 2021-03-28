@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="<base_url('assets/img/icons/'.$iconePagina)?>" type="image/x-icon">
+
+    <!-- JQUERY -->
+    <script src="<?= BASE_URL . '/js/jquery-3.5.1.js' ?>"></script>
+
+    <link rel="stylesheet" href="<?= BASE_URL. '/css/bootstrap.css' ?>">
+    <link rel="stylesheet" href="<?= BASE_URL. '/alertifyjs/css/alertify.css' ?>">
+    <link rel="stylesheet" href="<?= BASE_URL. '/alertifyjs/css/themes/bootstrap.css' ?>">
+    <link rel="stylesheet" href="<?= BASE_URL. '/css/font-awesome.css' ?>">
+    <link rel="stylesheet" href="<?= BASE_URL. '/css/main.css' ?>">
+</head>
+
+<body style="background-color: #ddd;">
+
+
+    <nav class="navbar navbar-expand-lg fixed-top shadow navbar-dark navbar-offcanvas"
+        style="background-color: #22282e;">
+        <div class="container-fluid">
+            <button class="navbar-toggler d-block" type="button" id="navToggle">
+                <span class="navbar-toggler-icon"></span><small>Menu</small>
+            </button>
+            <a class="navbar-brand" href="<base_url('')?>">
+                <img class="img-brand mb-1" src="<?= BASE_URL . '/img/icons/logo.png' ?>">
+                Web-Store
+            </a>
+            <div class="navbar-collapse offcanvas-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <?php //if(!$this->session->has_userdata('id_usuario')): //se não existir sessao?>
+                    <!-- ############################################################## -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= BASE_URL ?>"></i>Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<base_url('pagina/sobre')?>"><i
+                                class="fa fa-info-circle mr-2"></i>Sobre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= BASE_URL . '/usuario/login' ?>"><i
+                                class="fa fa-sign-in mr-2"></i>Entrar</a>
+                    </li>
+                    <li class="nav-item mr-1">
+                        <a class="nav-link" href="<?= BASE_URL . '/usuario/signup' ?>"><i
+                                class="fa fa-user-plus mr-2"></i>Cadastrar-se</a>
+                    </li>
+                    <?php //else: //se existir sessao?>
+
+                    <!-- ############################################################## 
+                    <li class="nav-item">
+                        <a class="nav-link" href="<base_url('home')?>"><i class="fa fa-home mr-2"></i>Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<base_url('pagina/sobre')?>"><i
+                                class="fa fa-info-circle mr-2"></i>Sobre</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="<site_url('usuario/login')?>"><i
+                                class="fa fa-sign-in mr-2"></i>Entrar com outra conta
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="<site_url('usuario/cadastrar')?>"><i
+                                class="fa fa-user-plus mr-2"></i>Criar uma nova conta
+                        </a>
+                    </li>
+
+                    <div class="d-flex">
+                        <div class="align-self-left text-light">
+                            <h6 class="text-left mt-2 ml-2">
+                                <a class="text-success" href="<base_url('usuario/perfil')?>"
+                                    style="text-decoration: none;">
+                                    <img class="img-fluid rounded-circle foto-perfil"
+                                        src="< base_url($perfil) ?? '' ?>" alt="">
+                                    <span class="text-center"><$this->session->usuario?></span>
+                                </a>
+                            </h6>
+                            <li class="nav-item dropdown">
+                                <div class="" aria-labelledby="dropdown01">
+
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item text-light" href="<site_url('usuario/perfil')?>"><i
+                                            class="fa fa-user mr-2"></i>Meu perfil
+                                    </a>
+
+                                    <a class="dropdown-item text-light" href="<site_url('usuario/perfil')?>"><i
+                                            class="fa fa-shopping-cart mr-2"></i>Meus produtos
+                                    </a>
+
+                                    <a class="dropdown-item text-danger" href="<site_url('usuario/logout')?>"><i
+                                            class="fa fa-sign-out mr-2"></i>Sair</a>
+                                </div>
+                            </li>
+                        </div>
+                    </div>
+                        #############################################################-->
+                    <?php //endif; ?>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="">
+
+        <?php echo $this->getContent(); ?>
+
+    </div>
+
+    <footer class="text-muted bg-dark text-center mt-5 p-4">
+        <div class="container-fluid">
+            <small class="text-light">
+                <?= APP_NAME; ?>
+                <div class="border-top">
+                    <div class="text-light mt-2">
+                        &COPY; 2021 - <?= DATE('Y') ?> - Todos os direitos reservados <br><a class="link"
+                            href="<site_url('pagina/sobre')?>">Daniel Pereira Sanches</a>
+                    </div>
+                </div>
+            </small>
+            <p class="float-right mr-5" style="font-size: 10pt;">
+                <a href="#">Voltar ao topo</a>
+            </p>
+        </div>
+    </footer>
+
+
+    <!-- jQuery first, then Popper.js, and then Bootstrap's JavaScript -->
+    <script src="<?= BASE_URL. '/js/popper.js' ?>"></script>
+    <script src="<?= BASE_URL. '/js/bootstrap.js' ?>"></script>
+    <script src="<?= BASE_URL. '/alertifyjs/alertify.js' ?>"></script>
+    <script src="<?= BASE_URL. '/js/form.js' ?>"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="offcanvas"], #navToggle').on('click', function () {
+                $('.offcanvas-collapse').toggleClass('open');
+            });
+        });
+    </script>
+</body>
+
+</html>

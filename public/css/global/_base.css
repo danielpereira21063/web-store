@@ -1,0 +1,46 @@
+.jumbotron {
+    background-color: white;
+}
+.search-input {
+    border-radius: 40px;
+}
+/* .page-header {
+    background: #26292d;
+} */
+.card-title-text {
+    color: green;
+    font-weight: bold;
+}
+.icone {
+    width: 16px;
+    height: 16px;
+}
+
+#navPrincipal {
+    background:  #22282e;
+}
+footer {
+    height: 130px;
+}
+label {
+    font-weight: bolder;
+}
+
+.dropdown-item:hover {
+    background-color: rgb(39, 45, 51);
+    font-weight: bold;
+}
+
+#btn-search {
+    border-radius: 15px;
+}
+
+.foto-perfil {
+    width: 32px;
+    height: 32px;
+}
+
+.logo {
+    width: 150px;
+    height: 150px;
+}
