@@ -6,76 +6,62 @@ class UsuarioController extends ControllerBase {
     }
 
     public function signupAction() {
+        $this->view->tituloPagina = 'Criar conta';
+        $this->view->iconePagina = 'sign-in.png';
         
         if($this->request->isPost()) {
             $dados = $this->request->getPost();
-
-            $this->view->dados = $dados;
-
+            //================== IMPORANTÍSSIMO ==============================
+            // ============ FAZER VALIDAÇÕES AO LADO DO SERVIDOR ===============
+            //=====================================================================
             /* VERIFICA SE OS CAMPOS DO FORMULÁRIO ESTÃO VAZIOS */
-
             if(in_array('', $dados)) {
-                if(empty($dados['nome'])) {
-                    $this->view->nome_erro = 'Insira seu nome para prosseguir';
-                }
-                if(empty($dados['email'])) {
-                    $this->view->email_erro = 'Insira seu e-mail para prosseguir';
-                }
-                if(empty($dados['senha'])) {
-                    $this->view->senha_erro = 'Insira uma senha para prosseguir';
-                }
-                if(empty($dados['confirm_senha'])) {
-                    $this->view->confirm_senha_erro = 'Confirme sua senha para prosseguir';
-                }
-                return;
+                return $this->response->setContent('campos_vazios');
             }
             /* ----------------------------------------------------------- */
-
-            $user = new Usuarios();
-            /* VERIFICA SE OS CAMPOS DO FORMULÁRIO SÃO Válidos */
+            
+            $user = new Usuario();
+            // exit;
             // ======================= validações ==========================
+            /* VERIFICA SE OS CAMPOS DO FORMULÁRIO SÃO Válidos */
             if($user->emailExiste($dados['email'])) {
-                $this->view->email_erro = 'O e-mail informado já foi cadastrado';
-                return;
+                return $this->response->setContent('email_existe');
+                // return 'email_existe';
             }
-
+            
             if(!$user->nomeValido($dados['nome'])) {
-                $this->view->nome_erro = 'Nome inválido';
-                return;
+                return $this->response->setContent('nome_invalido');
             }
-
-            if(!$user->emailValido($dados['email'])) {//se retornar false cairá nessa condição
-                $this->view->email_erro = 'E-mail inválido';
-                return;
+            
+            if(!$user->emailValido($dados['email'])) {
+                return $this->response->setContent('email_invalido');
             }
-
+            
             if(!$user->senhaValida($dados['senha'])) {
-                $this->view->senha_erro = 'A senha deve ter no mínimo 6 caracteres';
-                return;
+                return $this->response->setContent('senha_invalida');
             }
-
+            
             if(!$user->senhasConferem($dados['senha'], $dados['confirm_senha'])) {
-                $this->view->confirm_senha_erro = 'As senhas não conferem';
-                return;
+                return $this->response->setContent('senhas_nao_conferem');
             }
 
 
             //================== tudo pronto para armazenar os dados =========================
-            if(!in_array('', $dados)) { //se não existirem campos vazios
-                if($user->signupArmazenar($dados)) {
-                    //redirecionar para a página de 'conta criada com sucesso'
-                    $this->session->set('signup_sucesso', 'Seu cadastro foi realizado com sucesso!');
-                    $this->response->redirect(BASE_URL . '/usuario/signup_sucesso');
-                    return;
-                }
-                $this->view->mensagem = 'Erro ao armazenar dados';
+            if($user->signupArmazenar($dados)) {
+                //redirecionar para a página de 'conta criada com sucesso'
+                $this->session->set('signup_sucesso', 'Seu cadastro foi realizado com sucesso!');
+                return $this->response->setContent(1);
             } else {
-                $this->view->mensagem = 'Ooops! parece que existem alguns campos em branco. Preencha-os para prosseguir com seu cadastro.';
+                return $this->response->setContent('erro_armazenar');
             }
+            return false;
         }
     }
 
+
     public function loginAction() {
+        $this->view->tituloPagina = 'Login';
+        $this->view->iconePagina = 'login.png';
 
         if($this->request->isPost()) {
             $dados = $this->request->getPost();
@@ -83,23 +69,22 @@ class UsuarioController extends ControllerBase {
             $this->view->dados = $dados;
 
             if(in_array('', $dados)) {
-                if(empty($dados['email'])) {
-                    $this->view->email_erro = 'E-mail inválido';
-                }
-                if(empty($dados['senha'])) {
-                    $this->view->senha_erro = 'Senha inválida';
-                }
-                return;
+                return false;
             }
 
-            $user = new Usuarios();
+            $user = new Usuario();
             if(!$user->login($dados)) { //se email ou senha estiverem incorretos
-                $this->view->login_invalido = 'E-mail ou senha incorretos';
+                return false;
+            } else {
+                return '1';
             }
+            return false;
         }
     }
 
     public function signup_sucessoAction() {
+        $this->view->tituloPagina = 'Conta criada com sucesso';
+        $this->view->iconePagina = 'sign-in.png';
         if(!$this->session->has('signup_sucesso')) { //se não existir sessão
             return $this->response->redirect(BASE_URL . '/usuario/login');
         }

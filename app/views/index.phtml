@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="<base_url('assets/img/icons/'.$iconePagina)?>" type="image/x-icon">
-
+    <title><?= $tituloPagina ?></title>
+    <link rel="shortcut icon" href="<?= BASE_URL . '/img/icons/' . $iconePagina ?>" type="image/x-icon">
     <!-- JQUERY -->
     <script src="<?= BASE_URL . '/js/jquery-3.5.1.js' ?>"></script>
 
@@ -25,7 +25,7 @@
             <button class="navbar-toggler d-block" type="button" id="navToggle">
                 <span class="navbar-toggler-icon"></span><small>Menu</small>
             </button>
-            <a class="navbar-brand" href="<base_url('')?>">
+            <a class="navbar-brand" href="<?= BASE_URL ?>">
                 <img class="img-brand mb-1" src="<?= BASE_URL . '/img/icons/logo.png' ?>">
                 Web-Store
             </a>
@@ -37,7 +37,7 @@
                         <a class="nav-link" href="<?= BASE_URL ?>"></i>Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<base_url('pagina/sobre')?>"><i
+                        <a class="nav-link" href="<?= BASE_URL . '/pagina/sobre' ?>"><i
                                 class="fa fa-info-circle mr-2"></i>Sobre</a>
                     </li>
                     <li class="nav-item">
@@ -106,10 +106,8 @@
         </div>
     </nav>
 
-    <div class="">
-
+    <div class="container">
         <?php echo $this->getContent(); ?>
-
     </div>
 
     <footer class="text-muted bg-dark text-center mt-5 p-4">
@@ -119,7 +117,7 @@
                 <div class="border-top">
                     <div class="text-light mt-2">
                         &COPY; 2021 - <?= DATE('Y') ?> - Todos os direitos reservados <br><a class="link"
-                            href="<site_url('pagina/sobre')?>">Daniel Pereira Sanches</a>
+                            href="<?= BASE_URL . '/pagina/sobre' ?>">Daniel Pereira Sanches</a>
                     </div>
                 </div>
             </small>
@@ -134,7 +132,6 @@
     <script src="<?= BASE_URL. '/js/popper.js' ?>"></script>
     <script src="<?= BASE_URL. '/js/bootstrap.js' ?>"></script>
     <script src="<?= BASE_URL. '/alertifyjs/alertify.js' ?>"></script>
-    <script src="<?= BASE_URL. '/js/form.js' ?>"></script>
 
     <script>
         $(document).ready(function () {

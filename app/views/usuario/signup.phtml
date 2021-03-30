@@ -12,53 +12,51 @@
 						<div class="mb-4">
 							<h4 class="text-center text-primary"><i class="fa fa-user-plus"></i></h4>
 							<h3 class="text-center" style="font-weight: bolder;">Criar uma conta</h3>
-							<p class="<?=isset($mensagem) ? 'alert alert-danger text-center' : ''?>">
-								<?= $mensagem ?? '' ?></p>
+							<div id="mensagem"></div>
 						</div>
 						<hr>
-						<br>
-						<form id="frm-signup" method="POST" action="signup">
+						<form id="frm-signup" method="POST">
 							<div class="form-group">
 								<label for="nome">Nome: <sup class="text-danger">*</sup></label>
 								<input type="text" name="nome" id="nome"
-									class="form-control <?= isset($nome_erro) ? 'is-invalid' : '' ?>"
-									value="<?= $dados['nome'] ?? '' ?>" placeholder="Digite seu nome">
+									class="form-control"
+									value="" placeholder="Digite seu nome">
 								<div class="invalid-feedback text-center m-auto" id="nome-erro">
-									<?= $nome_erro ?? '' ?>
+									
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label for="email">E-mail: <sup class="text-danger">*</sup></label>
 								<input type="text" name="email" id="email"
-									class="form-control = <?=isset($email_erro) ? 'is-invalid' : '' ?>"
-									value="<?= $dados['email'] ?? '' ?>" placeholder="Digite seu e-mail">
+									class="form-control "
+									value="" placeholder="Digite seu e-mail">
 								<div class="invalid-feedback text-center m-auto" id="email-erro">
-									<?= $email_erro ?? '' ?>
+									
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label for="senha">Senha: <sup class="text-danger">*</sup></label>
 								<input type="password" name="senha" id="senha"
-									class="form-control = <?=isset($senha_erro) ? 'is-invalid' : '' ?> <?= isset($confirm_senha_erro) ? 'is-invalid' : '' ?>"
-									value="<?= $dados['senha'] ?? '' ?>" placeholder="Crie uma senha">
+									class="form-control "
+									value="" placeholder="Crie uma senha">
 								<div class="invalid-feedback text-center m-auto" id="senha-erro">
-									<?= $senha_erro ?? '' ?>
+									
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label for="confirm_senha">Confirme a senha: <sup class="text-danger">*</sup></label>
 								<input type="password" name="confirm_senha" id="confirm-senha"
-									class="form-control = <?=isset($confirm_senha_erro) ? 'is-invalid' : '' ?>"
-									value="<?= $dados['confirm_senha'] ?? '' ?>" placeholder="Confirme sua senha">
+									class="form-control "
+									value="" placeholder="Confirme sua senha">
 								<div class="invalid-feedback text-center m-auto" id="confirm-senha-erro">
-									<?= $confirm_senha_erro ?? '' ?>
+									
 								</div>
 							</div>
 
-							<button type="submit" id="btn-signup" class="btn btn-block btn-primary"
+							<button type="button" id="btn-signup" class="btn btn-block btn-primary"
 								style="background: #0d457e;">Cadastrar</button>
 
 							<div class="col-md-12 mt-2 text-center">
@@ -74,5 +72,5 @@
 		</div>
 	</div>
 </div>
-<!-- VALIDACAO DO FORMULÁRIO -->
-<!-- <script src="<? /*=BASE_URL . '/js/form-singup.js'*/ ?>"></script> -->
+
+<script src="<?=BASE_URL . '/js/forms/form-singup.js' ?>"></script>

@@ -3,7 +3,7 @@
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
 
-class Usuarios extends \Phalcon\Mvc\Model
+class Usuario extends \Phalcon\Mvc\Model
 {
     /**
      *
@@ -130,11 +130,10 @@ class Usuarios extends \Phalcon\Mvc\Model
 
     public function login($dados) {
         $email = $dados['email'];
-        $senha = $dados['senha'];
         $query = $this->di->getDb()->query("SELECT * FROM usuarios WHERE email = '$email'");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         if(count($result) !== 0) {
-            if(password_verify($senha, $result[0]['senha'])) {
+            if(password_verify($dados['senha'], $result[0]['senha'])) {
                 //login efetuado com sucesso
                 //criar os dados da sessão
                 return true;

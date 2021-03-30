@@ -1,13 +1,7 @@
 <?php
 
-class Movimentos extends \Phalcon\Mvc\Model
+class Produto extends \Phalcon\Mvc\Model
 {
-
-    /**
-     *
-     * @var integer
-     */
-    public $id_movimento;
 
     /**
      *
@@ -17,9 +11,39 @@ class Movimentos extends \Phalcon\Mvc\Model
 
     /**
      *
+     * @var integer
+     */
+    public $id_usuario;
+
+    /**
+     *
      * @var string
      */
-    public $data;
+    public $produto;
+
+    /**
+     *
+     * @var integer
+     */
+    public $quantidade;
+
+    /**
+     *
+     * @var string
+     */
+    public $foto;
+
+    /**
+     *
+     * @var string
+     */
+    public $descricao;
+
+    /**
+     *
+     * @var string
+     */
+    public $adicionado_em;
 
     /**
      * Initialize method for model.
@@ -27,7 +51,7 @@ class Movimentos extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("web_store");
-        $this->setSource("movimentos");
+        $this->setSource("produtos");
     }
 
     /**
@@ -37,14 +61,14 @@ class Movimentos extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'movimentos';
+        return 'produtos';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Movimentos[]|Movimentos|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return Produtos[]|Produtos|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -55,7 +79,7 @@ class Movimentos extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Movimentos|\Phalcon\Mvc\Model\ResultInterface
+     * @return Produtos|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {
