@@ -7,22 +7,21 @@
 					<div class="mb-4">
 						<h2 class="text-center text-danger"><i class="fa fa-lock"></i></h2>
 						<h3 class="text-center mb-3" style="font-weight: bolder;">Entrar no sistema</h3>
-						<div id="mensagem"></div>
 					</div>
 					<hr>
-						<p class="<?= isset($login_invalido) ? 'alert alert-danger text-center' : ''?>"><?=$login_invalido ?? ''?></p>
+					<div id="mensagem"></div>
 					<form method="POST">
 						<div class="form-group">
 							<label for="email">E-mail: <sup class="text-danger">*</sup></label>
-							<input type="text" name="email" id="email" class="form-control <?= isset($email_erro) ? 'is-invalid' : '' ?> <?= isset($login_invalido) ? 'is-invalid' : '' ?>" value="<?= $dados['email'] ?? '' ?>" placeholder="Digite seu e-mail">
+							<input type="text" name="email" id="email" class="form-control" placeholder="Digite seu e-mail">
 							<div class="invalid-feedback text-center">
-								<?= $email_erro ?? '' ?>
+								
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label for="senha">Senha: <sup class="text-danger">*</sup></label>
-							<input type="password" name="senha" id="senha" class="form-control <?= isset($senha_erro) ? 'is-invalid' : '' ?> <?= isset($login_invalido) ? 'is-invalid' : '' ?>" value="<?= $dados['senha'] ?? '' ?>" placeholder="Digite sua senha">
+							<input type="password" name="senha" id="senha" class="form-control" placeholder="Digite sua senha">
 						</div>
 
 						<button type="button" class="btn btn-block btn-primary" style="background: #0d457e;" id="btn-login">Entrar</button>

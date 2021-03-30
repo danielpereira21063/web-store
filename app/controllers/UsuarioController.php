@@ -1,10 +1,9 @@
 <?php
 class UsuarioController extends ControllerBase {
-
     public function indexAction() {
-        return $this->response->redirect(BASE_URL . '/usuario/login');
+        $this->response->redirect(BASE_URL . '/usuario/login');
     }
-
+    
     public function signupAction() {
         $this->view->tituloPagina = 'Criar conta';
         $this->view->iconePagina = 'sign-in.png';
@@ -16,33 +15,37 @@ class UsuarioController extends ControllerBase {
             //=====================================================================
             /* VERIFICA SE OS CAMPOS DO FORMULÁRIO ESTÃO VAZIOS */
             if(in_array('', $dados)) {
-                return $this->response->setContent('campos_vazios');
+                $this->response->setContent('campos_vazios');
+                return false;
             }
             /* ----------------------------------------------------------- */
             
             $user = new Usuario();
-            // exit;
             // ======================= validações ==========================
             /* VERIFICA SE OS CAMPOS DO FORMULÁRIO SÃO Válidos */
             if($user->emailExiste($dados['email'])) {
-                return $this->response->setContent('email_existe');
-                // return 'email_existe';
+                $this->response->setContent('email_existe');
+                return false;
             }
             
             if(!$user->nomeValido($dados['nome'])) {
-                return $this->response->setContent('nome_invalido');
+                $this->response->setContent('nome_invalido');
+                return false;
             }
             
             if(!$user->emailValido($dados['email'])) {
-                return $this->response->setContent('email_invalido');
+                $this->response->setContent('email_invalido');
+                return false;
             }
             
             if(!$user->senhaValida($dados['senha'])) {
-                return $this->response->setContent('senha_invalida');
+                $this->response->setContent('senha_invalida');
+                return false;
             }
             
             if(!$user->senhasConferem($dados['senha'], $dados['confirm_senha'])) {
-                return $this->response->setContent('senhas_nao_conferem');
+                $this->response->setContent('senhas_nao_conferem');
+                return false;
             }
 
 
@@ -50,11 +53,12 @@ class UsuarioController extends ControllerBase {
             if($user->signupArmazenar($dados)) {
                 //redirecionar para a página de 'conta criada com sucesso'
                 $this->session->set('signup_sucesso', 'Seu cadastro foi realizado com sucesso!');
-                return $this->response->setContent(1);
+                $this->response->setContent('1');
+                return false;
             } else {
-                return $this->response->setContent('erro_armazenar');
+                $this->response->setContent('erro_armazenar');
+                return false;
             }
-            return false;
         }
     }
 
@@ -66,19 +70,24 @@ class UsuarioController extends ControllerBase {
         if($this->request->isPost()) {
             $dados = $this->request->getPost();
 
-            $this->view->dados = $dados;
-
             if(in_array('', $dados)) {
                 return false;
             }
 
             $user = new Usuario();
-            if(!$user->login($dados)) { //se email ou senha estiverem incorretos
+            if($user->login($dados)) { //se email ou senha estiverem corretos
+                $dadosParaSessao = $user->buscarPorEmail($dados['email']);
+
+                // $this->session->set('id_usuario', $dadosParaSessao['id_usuario']);
+                // $this->session->set('usuario', $dadosParaSessao['nome']);
+                // $this->session->set('email', $dadosParaSessao['email']);
+                $this->session->set($dadosParaSessao);
+
+                $this->response->setContent('1');
                 return false;
             } else {
-                return '1';
+                return false;
             }
-            return false;
         }
     }
 
@@ -86,7 +95,7 @@ class UsuarioController extends ControllerBase {
         $this->view->tituloPagina = 'Conta criada com sucesso';
         $this->view->iconePagina = 'sign-in.png';
         if(!$this->session->has('signup_sucesso')) { //se não existir sessão
-            return $this->response->redirect(BASE_URL . '/usuario/login');
+            $this->response->redirect(BASE_URL . '/usuario/signup');
         }
     }
 }

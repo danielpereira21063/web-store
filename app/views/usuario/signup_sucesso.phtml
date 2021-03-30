@@ -1,11 +1,11 @@
-<?php if(isset($_SESSION['signup_sucesso'])): ?>
+<?php /*if(isset($_SESSION['signup_sucesso'])):*/ if($this->session->has('signup_sucesso')): ?>
 <div class="container p-5">
     <div class="col-sm-12 col-md-12 col-xl-12 m-auto text-center">
     <a href="<?= BASE_URL ?>" style="font-weight: bolder; font-size: 16pt;">Web-Store
 		<img src="<?= BASE_URL . '/img/background-ico.png' ?>" alt="Plano de fundo" class="img-fluid logo">
 	</a>
     </div>
-    <h5 class="alert alert-success text-center mt-5"><?= $_SESSION['signup_sucesso'] ?></h5>
+    <h5 class="alert alert-success text-center mt-5"><?= $this->session->get('signup_sucesso'); ?></h5>
     <hr>
         <div class="m-auto">
             

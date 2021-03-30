@@ -1,14 +1,26 @@
 $(document).ready(function(){
-    // $('#nome').val('Daniel');
-    // $('#email').val('daniel@email.com');
-    // $('#senha').val('121212');
-    // $('#confirm-senha').val('121212');
+    const nome = $('#nome');
+    const email = $('#email');
+    const senha = $('#senha');
+    const confirm_senha = $('#confirm-senha');
 
+    $('#ver-senha').on('click', function(){
+        if(senha.prop('type') == 'password') {
+            senha.attr('type', 'text');
+        } else {
+            senha.attr('type', 'password')
+        }
+    });
+
+    $('#ver-confirm-senha').on('click', function(){
+        if(confirm_senha.prop('type') == 'password') {
+            confirm_senha.attr('type', 'text');
+        } else {
+            confirm_senha.attr('type', 'password')
+        }
+    });
+    
     $('#btn-signup').on('click', function(){
-        const nome = $('#nome');
-        const email = $('#email');
-        const senha = $('#senha');
-        const confirm_senha = $('#confirm-senha');
         let erros = 0;
 
         if(nome.val() == '') {
@@ -129,7 +141,7 @@ $(document).ready(function(){
                             }
                             
                         } else {
-                            location.href = 'signup_sucesso';
+                            location.href = 'signup/sucesso';
                         }
                     }
                 });
