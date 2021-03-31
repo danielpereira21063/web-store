@@ -31,7 +31,7 @@
             </a>
             <div class="navbar-collapse offcanvas-collapse">
                 <ul class="navbar-nav mr-auto">
-                    <?php //if(!$this->session->has_userdata('id_usuario')): //se não existir sessao?>
+                    <?php if(!$this->session->has('id_usuario')): //se não existir sessao?>
                     <!-- ############################################################## -->
                     <li class="nav-item">
                         <a class="nav-link" href="<?= BASE_URL ?>"></i>Inicio</a>
@@ -48,59 +48,62 @@
                         <a class="nav-link" href="<?= BASE_URL . '/usuario/signup' ?>"><i
                                 class="fa fa-user-plus mr-2"></i>Cadastrar-se</a>
                     </li>
-                    <?php //else: //se existir sessao?>
+                    <?php else: //se existir sessao?>
 
-                    <!-- ############################################################## 
+                    <!-- ############################################################## -->
                     <li class="nav-item">
-                        <a class="nav-link" href="<base_url('home')?>"><i class="fa fa-home mr-2"></i>Inicio</a>
+                        <a class="nav-link" href="<?= BASE_URL . '/home' ?>"></i>Inicio</a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link" href="<base_url('pagina/sobre')?>"><i
+                        <a class="nav-link" href="<?= BASE_URL . '/pagina/sobre' ?>"><i
                                 class="fa fa-info-circle mr-2"></i>Sobre</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="<site_url('usuario/login')?>"><i
-                                class="fa fa-sign-in mr-2"></i>Entrar com outra conta
-                        </a>
+                        <a class="nav-link" href="<?= BASE_URL . '/usuario/login' ?>"><i
+                                class="fa fa-sign-in mr-2"></i>Entrar com outra conta</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="<site_url('usuario/cadastrar')?>"><i
-                                class="fa fa-user-plus mr-2"></i>Criar uma nova conta
-                        </a>
+                    <li class="nav-item mr-1">
+                        <a class="nav-link" href="<?= BASE_URL . '/usuario/signup' ?>"><i
+                                class="fa fa-user-plus mr-2"></i>Criar uma nova conta</a>
                     </li>
 
                     <div class="d-flex">
                         <div class="align-self-left text-light">
                             <h6 class="text-left mt-2 ml-2">
-                                <a class="text-success" href="<base_url('usuario/perfil')?>"
+                                <a class="text-success" href="<?= BASE_URL . '/usuario/perfil' ?>"
                                     style="text-decoration: none;">
                                     <img class="img-fluid rounded-circle foto-perfil"
-                                        src="< base_url($perfil) ?? '' ?>" alt="">
-                                    <span class="text-center"><$this->session->usuario?></span>
+                                        src="<?= BASE_URL . '/img/usuarios/perfil/' . $this->session->get('id_usuario').'.jpg' ?>" alt="">
+                                    <span class="text-center"><?= $this->session->get('usuario') ?></span>
                                 </a>
                             </h6>
                             <li class="nav-item dropdown">
                                 <div class="" aria-labelledby="dropdown01">
 
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item text-light" href="<site_url('usuario/perfil')?>"><i
+                                    <a class="dropdown-item text-light" href="<?= BASE_URL . '/usuario/perfil' ?>"><i
                                             class="fa fa-user mr-2"></i>Meu perfil
                                     </a>
 
-                                    <a class="dropdown-item text-light" href="<site_url('usuario/perfil')?>"><i
-                                            class="fa fa-shopping-cart mr-2"></i>Meus produtos
+                                    <a class="dropdown-item text-light" href="<?= BASE_URL . '/produtos/meus' ?>"><i
+                                            class="fa fa-shopping-basket mr-2"></i>Meus produtos
                                     </a>
 
-                                    <a class="dropdown-item text-danger" href="<site_url('usuario/logout')?>"><i
+                                    <a class="dropdown-item text-light" href="<?= BASE_URL . '/vendas/minhas' ?>"><i
+                                            class="fa fa-shopping-cart mr-2"></i>Minhas vendas
+                                    </a>
+
+                                    <a class="dropdown-item text-danger" href="<?= BASE_URL . '/usuario/logout' ?>"><i
                                             class="fa fa-sign-out mr-2"></i>Sair</a>
                                 </div>
                             </li>
                         </div>
                     </div>
-                        #############################################################-->
-                    <?php //endif; ?>
+                       <!-- ############################################################# -->
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>

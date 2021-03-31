@@ -1,7 +1,16 @@
 $(document).ready(function() {
+    const email = $('#email');
+    const senha = $('#senha');
+    $('#ver-senha').on('click', function(){
+        if(senha.prop('type') == 'password') {
+            senha.attr('type', 'text');
+            $('#ver-senha').children().removeClass('fa-eye').addClass('fa-eye-slash');
+        } else {
+            senha.attr('type', 'password')
+            $('#ver-senha').children().removeClass('fa-eye-slash').addClass('fa-eye');
+        }
+    });
     $('#btn-login').on('click', function() {
-        const email = $('#email');
-        const senha = $('#senha');
         const urlDestino = 'http://127.0.0.1/web-store/usuario/login';
         $.ajax({
             type: 'POST',
@@ -26,7 +35,7 @@ $(document).ready(function() {
                     });
         
                 } else {
-                    location.href = 'http://127.0.0.1/web-store/';
+                    location.href = 'http://127.0.0.1/web-store/home';
                 }
             }
         });

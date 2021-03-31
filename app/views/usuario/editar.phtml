@@ -1,0 +1,59 @@
+<div class="container pt-3 pb-5 mt-3">
+	<div class="row">
+		<div class="col-sm-12 col-12 col-md-10 col-xl-8 col-lg-8 m-auto">
+			<div class="card p-3 text-center" style="background-color: #ccc;">
+				<a href="<?=BASE_URL?>" class="mb-2">Voltar à página inicial</a>
+				<!-- ----------------------------------------------------------------------------- -->
+				<form action="<?= BASE_URL . '/usuario/perfil/editar/' . true ?>" method="POST" enctype="multipart/form-data">
+					<div class="col-12 col-md-12 col-lg-12 col-sm-12 mt-2 mb-2 m-auto pr-3 pl-3 pb-2 pt-2">
+						<a class="btn btn-sm btn-outline-danger float-left mr-4"
+							href="<?= BASE_URL . '/usuario/perfil' ?>"><i class="fa fa-arrow-left mr-2"></i>Cancelar
+						</a>
+
+						<button type="button" id="btn-editar-perfil" class="btn btn-sm btn-outline-primary ml-4 float-right"><i
+								class="fa fa-save mr-2"></i>Salvar</button>
+					</div>
+					<!-- -------------------------------------------------------------------- -->
+					<br>
+					<br>
+					<div class="col-8 m-auto" id="mensagem">
+						
+					</div>
+					<div class="mb-2">	
+						<img class="img-fluid rounded-circle" src="<?= BASE_URL . '/img/usuarios/perfil/' . $this->session->get('id_usuario').'.jpg' ?>" style="width: 128px; height: 128px">
+						<div class="form-group">
+							<label for="nome"><i class="fa fa-camera mr-2"></i>Foto de perfil</label>
+                            <div class="">
+                                <input class="form-control" id="profile_picture" name="profile_picture" type="file"
+                                    accept=".jpg">
+                            </div>
+						</div>
+						<!-- ----------------------------------------------------------------------------- -->
+				
+						<div class="form-group">
+							<label for="nome"><i class="fa fa-user mr-2"></i>Nome de usuário:</label>
+							<input class="form-control mb-4 text-center" name="nome" id="nome" value="<?= $this->session->get('usuario') ?>">
+							
+						</div>
+
+						<div class="form-group">
+							<label for="email"><i class="fa fa-envelope mr-2"></i>Endereço de e-mail:</label>
+							<h3><input class="form-control mb-4 text-center" name="email" id="email" value="<?= $this->session->get('email') ?>"></h3>
+						</div>
+
+						<!-- ------------------------------------------------------------------------------- -->
+						<div class="form-group">
+							<label for='senha'>Senha: </label>
+							<input class="form-control text-center" type='password'
+								name='senha' id='senha' placeholder="Informe sua senha para prosseguir">
+						</div>
+						<a href="<?=BASE_URL . '/usuario/perfil/alterar_senha' ?>">Alterar Senha</a>
+						<br>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="<?= BASE_URL . '/js/forms/form-editar-perfil.js' ?>"></script>

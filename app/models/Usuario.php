@@ -150,13 +150,6 @@ class Usuario extends \Phalcon\Mvc\Model
         return count($result) > 0 ? true : false;
     }
 
-    public function buscarPorEmail($email) {
-        $query = $this->di->getDb()->query("SELECT id_usuario, nome, email FROM usuarios WHERE email = '$email'");
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-        return $result;
-    }
-
-
 
 
 

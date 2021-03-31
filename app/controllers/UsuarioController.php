@@ -3,6 +3,13 @@ class UsuarioController extends ControllerBase {
     public function indexAction() {
         $this->response->redirect(BASE_URL . '/usuario/login');
     }
+
+    private function controleAcesso() {
+        if(!$this->session->has('id_usuario')) { //se não existir a sessão de usuário
+            $this->session->set('acesso_negado', 'Acesso negado! Faça login para ter acesso ao sistema.');
+            $this->response->redirect( BASE_URL . '/usuario/login');
+        }
+    }
     
     public function signupAction() {
         $this->view->tituloPagina = 'Criar conta';
@@ -76,15 +83,17 @@ class UsuarioController extends ControllerBase {
 
             $user = new Usuario();
             if($user->login($dados)) { //se email ou senha estiverem corretos
-                $dadosParaSessao = $user->buscarPorEmail($dados['email']);
-
-                // $this->session->set('id_usuario', $dadosParaSessao['id_usuario']);
-                // $this->session->set('usuario', $dadosParaSessao['nome']);
-                // $this->session->set('email', $dadosParaSessao['email']);
-                $this->session->set($dadosParaSessao);
+                $dadosParaSessao = $user::findFirstByEmail($dados['email']);
+                if($this->session->has('id_usuario')) { //se já existir sessão, remove os dados da sessão ativa
+                    $this->session->remove('id_usuario');
+                    $this->session->remove('usuario');
+                    $this->session->remove('email');
+                }
+                $this->session->set('id_usuario', $dadosParaSessao->id_usuario);
+                $this->session->set('usuario', $dadosParaSessao->nome);
+                $this->session->set('email', $dadosParaSessao->email);
 
                 $this->response->setContent('1');
-                return false;
             } else {
                 return false;
             }
@@ -97,5 +106,24 @@ class UsuarioController extends ControllerBase {
         if(!$this->session->has('signup_sucesso')) { //se não existir sessão
             $this->response->redirect(BASE_URL . '/usuario/signup');
         }
+    }
+
+    public function logoutAction() {
+        $this->session->remove('id_usuario');
+        $this->session->remove('usuario');
+        $this->session->remove('email');
+        $this->response->redirect(BASE_URL);
+    }
+
+    public function perfilAction() {
+        $this->controleAcesso();
+        $this->view->tituloPagina = 'Perfil';
+        $this->view->iconePagina = 'user.png';
+    }
+    
+    public function editarAction() {
+        $this->controleAcesso();
+        $this->view->tituloPagina = 'Editar perfil';
+        $this->view->iconePagina = 'user.png';
     }
 }
