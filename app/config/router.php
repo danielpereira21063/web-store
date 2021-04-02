@@ -6,6 +6,7 @@ $router = $di->getRouter();
 
 // DEFAULT
 $router->add('/', ['controller' => 'index', 'action' => 'index']);
+$router->notFound(['controller' => 'index', 'action' => 'route404']);
 
 //controller usuario
 $router->add('/usuario/signup', ['controller' => 'usuario', 'action' => 'signup']);
@@ -25,4 +26,11 @@ $router->add('/home', ['controller' => 'home', 'action' => 'index']);
 //controller pagina
 $router->add('/pagina/sobre', ['controller' => 'pagina', 'action' => 'sobre']);
 
-$router->handle();
+//controller produtos
+$router->add('/produtos/', ['controller' => 'produtos', 'action' => 'index']);
+$router->add('/produtos/meus', ['controller' => 'produtos', 'action' => 'meus']);
+$router->add('/produtos/editar', ['controller' => 'produtos', 'action' => 'editar']);
+$router->add('/produtos/meus/adicionar', ['controller' => 'produtos', 'action' => 'adicionar']);
+$router->add('/produtos/meus/excluir', ['controller' => 'produtos', 'action' => 'excluir']);
+
+$router->handle();  

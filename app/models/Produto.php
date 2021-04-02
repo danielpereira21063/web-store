@@ -19,13 +19,19 @@ class Produto extends \Phalcon\Mvc\Model
      *
      * @var string
      */
-    public $produto;
+    public $nome_produto;
 
     /**
      *
      * @var integer
      */
     public $quantidade;
+
+    /**
+     *
+     * @var integer
+     */
+    public $preco;
 
     /**
      *
@@ -51,7 +57,7 @@ class Produto extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("web_store");
-        $this->setSource("produtos");
+        $this->setSource("Produtos");
     }
 
     /**
@@ -61,7 +67,7 @@ class Produto extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'produtos';
+        return 'Produtos';
     }
 
     /**
@@ -84,6 +90,29 @@ class Produto extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
+    }
+
+    public function adicionarImagem($img) {
+
+    }
+
+
+    public function listarPorId($id) {
+        $result = [];
+        $query = $this->di->getDb()->query("SELECT * FROM produtos JOIN usuarios WHERE produtos.id_usuario = $id");
+        $result = $query->fetchALL(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function excluir($id) {
+        try {
+            $query = $this->di->getDb()->prepare('DELETE FROM produtos WHERE id_produto = :id');
+            $query->bindValue(':id_usuario', $id);
+            return $query->execute();
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            return false;
+        }
     }
 
 }

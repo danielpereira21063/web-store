@@ -161,7 +161,6 @@ class Usuario extends \Phalcon\Mvc\Model
 
 
 
-
     public function emailValido($email) {
         if ( filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
             return true;

@@ -126,4 +126,8 @@ class UsuarioController extends ControllerBase {
         $this->view->tituloPagina = 'Editar perfil';
         $this->view->iconePagina = 'user.png';
     }
+    
+    public function excluirAction() {
+        
+    }
 }
