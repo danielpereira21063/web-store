@@ -3,12 +3,10 @@ $(document).ready(function() {
     const descricao = $('#desc-produto');
     const quant = $('#quant');
     const preco = $('#preco');
-    const imgProduto = $('#img-produto');
-
-    nomeProduto.val('Teste');
-    descricao.val('Teste');
-    quant.val(12);
-    preco.val('Teste');
+    // nomeProduto.val('Cinto');
+    // descricao.val('Esse é um belo cinto');
+    // quant.val(12);
+    // preco.val(22.99);
 
     $('#btn-adicionar-produto').on('click', function() {
         let erros = 4;
@@ -54,17 +52,19 @@ $(document).ready(function() {
 
         if(erros == 0) {
             //envivar dados
-            const urlDestino = 'http://127.0.0.1/web-store/produtos/meus/adicionar';
+            const urlDestino = 'http://127.0.0.1/web-store/produtos/adicionar';
             dados = $('#form-adicionar-produto').serialize();
             $.ajax({
-                type: 'POST',
+                type: 'post',
                 url: urlDestino,
                 data: dados,
                 success: function(r) {
-                    if(r) {
-                        console.log(r);
+                    if(r != 'sucesso') {
+                        if(r == 'erro_adicionar') {
+                            $('#mensagem').html('Erro ao adicionar produto');
+                        }
                     } else {
-                        console.log('erro');
+                        alertify.success('Produto adicionado com sucesso');
                     }
                 }
             });

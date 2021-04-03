@@ -1,5 +1,4 @@
 <?php
-
 class ProdutosController extends ControllerBase {
     private function controleAcesso() {
         if(!$this->session->has('id_usuario')) { //se não existir a sessão de usuário
@@ -10,6 +9,18 @@ class ProdutosController extends ControllerBase {
     
     public function indexAction() {
         $this->controleAcesso();
+
+        $this->view->tituloPagina = 'Produtos';
+        $this->view->iconePagina = '';
+
+        if($this->request->isPost()) {
+            $idUsuario = $this->session->get('id_usuario');
+            $produto = new Produto();
+            $produtos = $produto->listarTodos($idUsuario);
+            echo json_encode($produtos);
+            return false;
+        }
+        
     }
 
     public function meusAction() {
@@ -17,8 +28,14 @@ class ProdutosController extends ControllerBase {
 
         $this->view->tituloPagina = 'Meus produtos';
         $this->view->iconePagina = '';
-        $produto = new Produto();
-        $this->view->produtos = $produto->listarPorId($this->session->get('id_usuario'));
+
+        if($this->request->isPost()) {
+            $produto = new Produto();
+            $idUsuario = $this->session->get('id_usuario');
+            $produtos = $produto->listarPorIdUsuario($idUsuario);
+            echo json_encode($produtos);
+            return false;
+        }
     }
 
     public function adicionarAction() {
@@ -28,47 +45,16 @@ class ProdutosController extends ControllerBase {
         $this->view->iconePagina = '';
 
         if($this->request->isPost()) {
+            $dados = $this->request->getPost();
+            $dados['id_usuario'] = $this->session->get('id_usuario');
             $produto = new Produto();
-            if(!empty($_FILES['img_produto']['name'])) { //se for feito o upload de uma imagem
-                //fazer o upload da imagem do produto
-                $maxWidth = 1024;
-                $maxHeight = 1024;
-                $maxSize = 524288; //aproximadamente 512kb
-                $imgProduto = $_FILES['img_produto'];
-                var_dump($imgProduto);
-                if(!preg_match("/^image\/(jpg|png|jpeg|pjpg)$/", $imgProduto['type'])) { //se o arquivo não for uma imagem
-                    $this->response->setContent('O tipo de arquivo enviado não é permitido');
-                    return false;
-                }
-                //verifica se as dimensões da imagem são válidas
-                $dimensoesProduto = getimagesize($imgProduto['tmp_name']);
-                if($dimensoesProduto[0] > $maxWidth || $dimensoesProduto[1] > $maxHeight) {
-                    $this->response->setContent('As dimensões da imagem excedem o tamanho máximo permitido');
-                    return false;
-                }
-                
-                //verifica o tamanho do arquivo
-                if($imgProduto['size'] >  $maxSize) {
-                    $this->response->setContent('O tamanho da imagem excede o tamanho máximo permitido');
-                    return false;
-                }
 
-                $nomeImgProduto = uniqid().'_'.$imgProduto['name'];
-                if($produto->adicionarImagem($nomeImgProduto)) {
-                    move_uploaded_file($imgProduto['tmp_name'], '/files/produtos');
-                } else {
-                    $this->response->setContent('Erro ao armazenar imagem do produto');
-                }
-
+            if(!$produto->adicionar($dados)) { //se não cadastrar o produto
+                $this->response->setContent('erro_adicionar');
                 return false;
             }
-            var_dump($_FILES['img_produto']);
-            //name
-            //type
-            //tmp_name
-            //error
-            //size
-            exit;
+            $this->response->setContent('sucesso');
+            return false;
         }
     }
 
@@ -82,6 +68,51 @@ class ProdutosController extends ControllerBase {
 
             }
             
+        }
+    }
+
+    public function atualizarFoto() {
+        $this->controleAcesso();
+
+        if($this->request->isPost()) {
+            $produto = new Produto();
+            if(!empty($_FILES['img_produto']['name'])) { //se for feito o upload de uma imagem
+                //fazer o upload da imagem do produto
+                $maxWidth = 1024;
+                $maxHeight = 1024;
+                $maxSize = 524288; //aproximadamente 512kb
+                $imgProduto = $_FILES['img_produto'];
+                if(!preg_match("/^image\/(jpg|png|jpeg|pjpg)$/", $imgProduto['type'])) { //se o arquivo não for uma imagem
+                    $this->response->setContent('tipo_nao_permitido');
+                    return false;
+                }
+    
+                //verifica se as dimensões da imagem são válidas
+                $dimensoesProduto = getimagesize($imgProduto['tmp_name']);
+                if($dimensoesProduto[0] > $maxWidth || $dimensoesProduto[1] > $maxHeight) {
+                    $this->response->setContent('demensao_excede');
+                    return false;
+                }
+                
+                //verifica se o tamanho do arquivo é válido
+                if($imgProduto['size'] >  $maxSize) {
+                    $this->response->setContent('tamanho_excede');
+                    return false;
+                }
+    
+                //armazena a imagem do produto na base de dados
+                $nomeImgProduto = uniqid() . '_' . $imgProduto['name'];
+                if(!$produto->atualizarImagemProduto($nomeImgProduto)) {
+                    move_uploaded_file($imgProduto['tmp_name'], './files/produtos/'.$nomeImgProduto);
+                    $this->response->setContent('erro_armazenar');
+                    return false;
+                }
+    
+                
+                //cadastro efetuado com sucesso
+                $this->response->setContent('foto_atualizada_sucesso');
+            }
+            return false;
         }
     }
 

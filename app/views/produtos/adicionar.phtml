@@ -12,18 +12,7 @@
                         <br>
                         <hr>
                         <div id="mensagem"></div>
-                        <form method="POST" id="form-adicionar-produto" enctype="multipart/form-data">
-                            <div class="col-md-12 m-auto">
-                                <div class="form-group">
-                                    <label for="img-produto" class="float-center">Imagem do produto &nbsp; <i
-                                            class="fa fa-camera"></i></label>
-                                    <input type="file" name="img_produto" id="img-produto" class="form-control"
-                                        accept=".jpg">
-                                    <div class="invalid-feedback text-center">
-
-                                    </div>
-                                </div>
-                            </div>
+                        <form method="POST" id="form-adicionar-produto">
                             <div class="col-md-12 m-auto">
                                 <div class="form-group">
                                     <label for="nome-produto">Nome</label>
@@ -65,7 +54,7 @@
                                 <br>
                             </div>
                             <div class="col-12 float-right">
-                                <button type="submit" class="btn btn-block btn-sm btn-outline-primary"
+                                <button type="button" class="btn btn-block btn-sm btn-outline-primary"
                                 id="btn-adicionar-produto"><i class="fa fa-plus mr-2"></i>Adicionar</button>
                             </div>
                         </form>
@@ -76,4 +65,5 @@
     </div>
 </div>
 </div>
+
 <script src="<?= BASE_URL . '/js/forms/form-adicionar-produto.js' ?>"></script>

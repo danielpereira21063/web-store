@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -34,7 +35,7 @@
                     <?php if(!$this->session->has('id_usuario')): //se não existir sessao?>
                     <!-- ############################################################## -->
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= BASE_URL ?>"></i>Inicio</a>
+                        <a class="nav-link" href="<?= BASE_URL ?>"><i class="fa fa-home"></i> Inicio</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?= BASE_URL . '/pagina/sobre' ?>"><i
@@ -52,7 +53,7 @@
 
                     <!-- ############################################################## -->
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= BASE_URL . '/home' ?>"></i>Inicio</a>
+                        <a class="nav-link" href="<?= BASE_URL . '/home' ?>"><i class="fa fa-home mr-2"></i>Inicio</a>
                     </li>
 
                     <li class="nav-item">
@@ -76,7 +77,8 @@
                                 <a class="text-success" href="<?= BASE_URL . '/usuario/perfil' ?>"
                                     style="text-decoration: none;">
                                     <img class="img-fluid rounded-circle foto-perfil"
-                                        src="<?= BASE_URL . '/img/usuarios/perfil/' . $this->session->get('id_usuario').'.jpg' ?>" alt="">
+                                        src="<?= BASE_URL . '/img/usuarios/perfil/' . $this->session->get('id_usuario').'.jpg' ?>"
+                                        alt="">
                                     <span class="text-center"><?= $this->session->get('usuario') ?></span>
                                 </a>
                             </h6>
@@ -102,14 +104,14 @@
                             </li>
                         </div>
                     </div>
-                       <!-- ############################################################# -->
+                    <!-- ############################################################# -->
                     <?php endif; ?>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container-fluid">
+    <div class="container">
         <?php echo $this->getContent(); ?>
     </div>
 

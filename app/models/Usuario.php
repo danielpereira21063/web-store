@@ -110,7 +110,7 @@ class Usuario extends \Phalcon\Mvc\Model
         try {
             $query = $this->di
             ->getDb()
-            ->prepare('INSERT INTO usuarios (nome, email, senha) VALUES (:nome, :email, :senha);');
+            ->prepare('INSERT INTO usuarios (nome, email, senha) VALUES (:nome, :email, :senha)');
 
             $query->bindValue(':nome', $dados['nome']);
             $query->bindValue(':email', $dados['email']);
