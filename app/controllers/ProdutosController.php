@@ -46,6 +46,13 @@ class ProdutosController extends ControllerBase {
 
         if($this->request->isPost()) {
             $produto = new Produto();
+            $dados = $this->request->getPost();
+            $dados['id_usuario'] = $this->session->get('id_usuario');
+            
+            if(!$produto->adicionar($dados)) {
+                $this->view->erro = '<p class="alert alert-danger">Erro ao adicionar produto</p>'; //se não cadastrar o produto
+            }
+
             if(!empty($_FILES['img_produto']['name'])) { //se for feito o upload de uma imagem
                 //fazer o upload da imagem do produto
                 $maxWidth = 1024;
@@ -53,20 +60,20 @@ class ProdutosController extends ControllerBase {
                 $maxSize = 524288; //aproximadamente 512kb
                 $imgProduto = $_FILES['img_produto'];
                 if(!preg_match("/^image\/(jpg|png|jpeg|pjpg)$/", $imgProduto['type'])) { //se o arquivo não for uma imagem
-                    $this->response->setContent('tipo_nao_permitido');
+                    $this->view->erro = '<p class="alert alert-danger">O tipo de arquivo enviado não é permitido</p>';
                     return false;
                 }
     
                 //verifica se as dimensões da imagem são válidas
                 $dimensoesProduto = getimagesize($imgProduto['tmp_name']);
                 if($dimensoesProduto[0] > $maxWidth || $dimensoesProduto[1] > $maxHeight) {
-                    $this->response->setContent('demensao_excede');
+                    $this->view->erro = '<p class="alert alert-danger">As dimensões do arquivo excedem o tamanho máximo permitido</p>';
                     return false;
                 }
                 
                 //verifica se o tamanho do arquivo é válido
                 if($imgProduto['size'] >  $maxSize) {
-                    $this->response->setContent('tamanho_excede');
+                    $this->view->erro = '<p class="alert alert-danger">O arquivo enviado excede o tamanho máximo permitido</p>';
                     return false;
                 }
     
@@ -74,23 +81,7 @@ class ProdutosController extends ControllerBase {
                 $nomeImgProduto = uniqid() . '_' . $imgProduto['name'];
                 $produto->atualizarImagemProduto($nomeImgProduto);
                 move_uploaded_file($imgProduto['tmp_name'], 'files/produtos/'.$nomeImgProduto);
-                
-                //cadastro efetuado com sucesso
-                $this->response->setContent('foto_atualizada_sucesso');
-                var_dump($_FILES);
             }
-
-
-            $dados = $this->request->getPost();
-            $dados['id_usuario'] = $this->session->get('id_usuario');
-            
-            return false;
-            if(!$produto->adicionar($dados)) { //se não cadastrar o produto
-                $this->response->setContent('erro_adicionar');
-                return false;
-            }
-            $this->response->setContent('sucesso');
-            return false;
         }
     }
 

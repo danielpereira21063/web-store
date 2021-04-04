@@ -51,21 +51,9 @@ $(document).ready(function() {
         if(erros == 0) {
             //envivar dados
             const urlDestino = 'http://127.0.0.1/web-store/produtos/adicionar';
-            dados = $('#form-adicionar-produto').serialize();
-            $.ajax({
-                type: 'post',
-                url: urlDestino,
-                data: dados,
-                success: function(r) {
-                    if(r != 'sucesso') {
-                        if(r == 'erro_adicionar') {
-                            $('#mensagem').html('Erro ao adicionar produto');
-                        }
-                    } else {
-                        alertify.success('Produto adicionado com sucesso');
-                    }
-                }
-            });
+            if($('#form-adicionar-produto').submit()) {
+                console.log('ok');
+            }
         }
 
     });

@@ -1,14 +1,18 @@
 <?php
 class VendasController extends ControllerBase {
     
-    public function indexAction() {
-        if($this->session->has('id_usuario')) {
-            //se houver sessão redirecionar o usuário para home
-            $this->response->redirect( BASE_URL . '/home');
+    private function controleAcesso() {
+        if(!$this->session->has('id_usuario')) { //se não existir a sessão de usuário
+            $this->session->set('acesso_negado', 'Acesso negado! Faça login para ter acesso ao sistema.');
+            $this->response->redirect( BASE_URL . '/usuario/login');
         }
-        $this->view->tituloPagina = 'Início';
-        $this->view->iconePagina = 'logo.png';
-        
+    }
+
+    public function indexAction() {
+        $this->controleAcesso();
+
+        $this->view->tituloPagina = 'Minhas vendas';
+        $this->view->iconePagina = '';
     }
 
 }
