@@ -93,11 +93,18 @@ class Produto extends \Phalcon\Mvc\Model
     }
 
     public function atualizarImagemProduto($nomeImg) {
-        $utimoId = $this->di->getDb()->query('SELECT MAX(id_produto) as max_id from produtos')->fetch(PDO::FETCH_ASSOC)['max_id'];
+        $ultimoId = $this->di->getDb()->query('SELECT MAX(id_produto) as max_id from produtos')->fetch(PDO::FETCH_ASSOC)['max_id'];
         try {
+            $imgAtual = $this->di->getDb()->query("SELECT * FROM produtos WHERE id_produto = $ultimoId")->fetch(PDO::FETCH_ASSOC)['foto'];
+            $pathImgAtual = dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'produtos'.DIRECTORY_SEPARATOR.$imgAtual;
+            if($imgAtual != 'sem_foto.jpg') {
+                if(file_exists($pathImgAtual)) {
+                    unlink($pathImgAtual);
+                }
+            }
             $query = $this->di->getDb()->prepare('UPDATE produtos SET foto = :nomeImg WHERE id_produto = :ultimoId');
             $query->bindValue(':nomeImg', $nomeImg);
-            $query->bindValue(':ultimoId', $utimoId);
+            $query->bindValue(':ultimoId', $ultimoId);
         
             return $query->execute() ? true : false;
         } catch (\Exception $e) {
@@ -136,7 +143,8 @@ class Produto extends \Phalcon\Mvc\Model
 
     public function listarTodos($idUser) {
         try {
-            return $this->di->getDb()->query("SELECT produtos.id_produto, produtos.id_usuario, produtos.nome_produto, produtos.quantidade, produtos.preco, produtos.foto, produtos.descricao, produtos.adicionado_em, usuarios.nome as vendedor FROM produtos JOIN usuarios on produtos.id_usuario = usuarios.id_usuario WHERE produtos.id_usuario <> $idUser")->fetchAll(PDO::FETCH_ASSOC);
+            $query = $this->di->getDb()->query("SELECT produtos.id_produto, produtos.id_usuario, produtos.nome_produto, produtos.quantidade, produtos.preco, produtos.foto, produtos.descricao, produtos.adicionado_em, usuarios.profile_picture AS foto_vendedor, usuarios.nome AS vendedor FROM produtos JOIN usuarios ON produtos.id_usuario = usuarios.id_usuario WHERE produtos.id_usuario <> $idUser")->fetchAll(PDO::FETCH_ASSOC);
+            return $query;
         } catch(\Exception $e) {
             echo $e->getMessage();
         }

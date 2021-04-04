@@ -19,7 +19,7 @@ $router->add('/usuario/perfil/excluir', ['controller' => 'usuario', 'action' => 
 //=========================================================
 
 //controller home
-$router->add('/home', ['controller' => 'home', 'action' => 'index']);
+$router->add('/home', ['controller' => 'produtos', 'action' => 'index']);
 //==========================================================
 
 
@@ -33,4 +33,7 @@ $router->add('/produtos/editar', ['controller' => 'produtos', 'action' => 'edita
 $router->add('/produtos/meus/adicionar', ['controller' => 'produtos', 'action' => 'adicionar']);
 $router->add('/produtos/meus/excluir', ['controller' => 'produtos', 'action' => 'excluir']);
 
+
+//vendas
+$router->add('/vendas/', ['controller' => 'vendas', 'action' => 'minhas']);
 $router->handle();  

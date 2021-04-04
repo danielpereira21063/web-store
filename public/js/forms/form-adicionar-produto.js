@@ -47,8 +47,6 @@ $(document).ready(function() {
             erros--;
         }
 
-        console.log(erros);
-
 
         if(erros == 0) {
             //envivar dados

@@ -21,11 +21,9 @@ $.ajax({
                         <div class="produto-div align-items-center p-2 text-center">
                         <img src="http://127.0.0.1/web-store/files/produtos/${produto['foto']}" alt="${produto['nome_produto']}" class="rounded" width="160px">
                         <h5>${produto['nome_produto']}</h5>
-                        <div class="mt-3 info">
-                            <span class="text d-block">${produto['descricao']}</span>
-                        </div>
+                        
                         <div class="preco mt-3 text-dark">
-                            <span>R$ ${produto['preco']},00</span>
+                            <span>R$ ${produto['preco']}</span>
                         </div>
                     </div>
                         <div class="p-3 produto mt-3" style="background-color: #eee;">
