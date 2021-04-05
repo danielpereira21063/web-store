@@ -112,6 +112,11 @@ class Produto extends \Phalcon\Mvc\Model
         }
     }
 
+    public function pesquisar($pesquisa, $idUser) {
+        $query = $this->di->getDb()->query("SELECT produtos.id_produto, produtos.id_usuario, produtos.nome_produto, produtos.quantidade, produtos.preco, produtos.foto, produtos.descricao, produtos.adicionado_em, usuarios.profile_picture AS foto_vendedor, usuarios.nome AS vendedor FROM produtos JOIN usuarios ON produtos.id_usuario = usuarios.id_usuario WHERE produtos.nome_produto LIKE '$pesquisa%' AND produtos.id_usuario <> $idUser ORDER BY produtos.nome_produto");
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function adicionar($dados) {
         $query = $this->di->getDb()->prepare('INSERT INTO produtos (id_usuario, nome_produto, quantidade, preco, descricao) VALUES (:id_user, :nome, :quant, :preco, :descricao) ');
         $query->bindValue(':id_user', $dados['id_usuario']);
@@ -143,8 +148,8 @@ class Produto extends \Phalcon\Mvc\Model
 
     public function listarTodos($idUser) {
         try {
-            $query = $this->di->getDb()->query("SELECT produtos.id_produto, produtos.id_usuario, produtos.nome_produto, produtos.quantidade, produtos.preco, produtos.foto, produtos.descricao, produtos.adicionado_em, usuarios.profile_picture AS foto_vendedor, usuarios.nome AS vendedor FROM produtos JOIN usuarios ON produtos.id_usuario = usuarios.id_usuario WHERE produtos.id_usuario <> $idUser")->fetchAll(PDO::FETCH_ASSOC);
-            return $query;
+            $query = $this->di->getDb()->query("SELECT produtos.id_produto, produtos.id_usuario, produtos.nome_produto, produtos.quantidade, produtos.preco, produtos.foto, produtos.descricao, produtos.adicionado_em, usuarios.profile_picture AS foto_vendedor, usuarios.nome AS vendedor FROM produtos JOIN usuarios ON produtos.id_usuario = usuarios.id_usuario WHERE produtos.id_usuario <> $idUser ORDER BY produtos.nome_produto");
+            return $query->fetchAll(PDO::FETCH_ASSOC);
         } catch(\Exception $e) {
             echo $e->getMessage();
         }

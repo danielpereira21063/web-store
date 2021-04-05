@@ -28,6 +28,7 @@ $router->add('/pagina/sobre', ['controller' => 'pagina', 'action' => 'sobre']);
 
 //controller produtos
 $router->add('/produtos/', ['controller' => 'produtos', 'action' => 'index']);
+$router->add('/produtos/pesquisar', ['controller' => 'produtos', 'action' => 'pesquisar']);
 $router->add('/produtos/meus', ['controller' => 'produtos', 'action' => 'meus']);
 $router->add('/produtos/editar', ['controller' => 'produtos', 'action' => 'editar']);
 $router->add('/produtos/meus/adicionar', ['controller' => 'produtos', 'action' => 'adicionar']);

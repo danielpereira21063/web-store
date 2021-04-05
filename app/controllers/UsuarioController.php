@@ -119,12 +119,51 @@ class UsuarioController extends ControllerBase {
         $this->controleAcesso();
         $this->view->tituloPagina = 'Perfil';
         $this->view->iconePagina = 'user.png';
+        $idUsuario = $this->session->get('id_usuario');
+        $user = new Usuario();
+        $this->view->fotoPerfil = $user::findFirstById_usuario($idUsuario)->profile_picture;
     }
     
     public function editarAction() {
         $this->controleAcesso();
+
         $this->view->tituloPagina = 'Editar perfil';
         $this->view->iconePagina = 'user.png';
+        $idUsuario = $this->session->get('id_usuario');
+        $user = new Usuario();
+        $this->view->fotoPerfil = $user::findFirstById_usuario($idUsuario)->profile_picture;
+
+        if($this->request->isPost()) {
+            if(!empty($_FILES['profile_picture']['name'])) {
+                $maxWidth = 1024;
+                $maxHeight = 1024;
+                $maxSize = 524288; //aproximadamente 512kb
+                $fotoPerfil = $_FILES['profile_picture'];
+                if(!preg_match("/^image\/(jpg|png|jpeg|pjpg)$/", $fotoPerfil['type'])) { //se o arquivo não for uma imagem
+                    $this->view->erro = '<p class="alert alert-danger">O tipo de arquivo enviado não é permitido</p>';
+                    return false;
+                }
+                
+                //verifica se as dimensões da imagem são válidas
+                $dimensoesProduto = getimagesize($fotoPerfil['tmp_name']);
+                if($dimensoesProduto[0] > $maxWidth || $dimensoesProduto[1] > $maxHeight) {
+                    $this->view->erro = '<p class="alert alert-danger">As dimensões do arquivo excedem o tamanho máximo permitido</p>';
+                    return false;
+                }
+
+                //verifica se o tamanho do arquivo é válido
+                if($fotoPerfil['size'] >  $maxSize) {
+                    $this->view->erro = '<p class="alert alert-danger">O arquivo enviado excede o tamanho máximo permitido</p>';
+                    return false;
+                }
+
+                //armazena a imagem do produto na base de dados
+                $nomefotoPerfil = uniqid() . '_' . $fotoPerfil['name'];
+                $user->atualizarImagemPerfil($nomefotoPerfil, $idUsuario);
+                move_uploaded_file($fotoPerfil['tmp_name'], 'files/usuarios/perfil/'.$nomefotoPerfil);
+                $this->view->perfil_atualizado = '<p class="alert-alert-success">Perfil atualizado com sucesso</p>';
+            }
+        }
     }
     
     public function excluirAction() {

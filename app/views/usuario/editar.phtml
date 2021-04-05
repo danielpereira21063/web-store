@@ -4,7 +4,7 @@
 			<div class="card p-3 text-center" style="background-color: #ccc;">
 				<a href="<?=BASE_URL?>" class="mb-2">Voltar à página inicial</a>
 				<!-- ----------------------------------------------------------------------------- -->
-				<form action="<?= BASE_URL . '/usuario/perfil/editar/' . true ?>" method="POST" enctype="multipart/form-data">
+				<form action="<?= BASE_URL . '/usuario/perfil/editar'?>" method="POST" enctype="multipart/form-data" id="form-editar-perfil">
 					<div class="col-12 col-md-12 col-lg-12 col-sm-12 mt-2 mb-2 m-auto pr-3 pl-3 pb-2 pt-2">
 						<a class="btn btn-sm btn-outline-danger float-left mr-4"
 							href="<?= BASE_URL . '/usuario/perfil' ?>"><i class="fa fa-arrow-left mr-2"></i>Cancelar
@@ -14,46 +14,55 @@
 								class="fa fa-save mr-2"></i>Salvar</button>
 					</div>
 					<!-- -------------------------------------------------------------------- -->
-					<br>
-					<br>
+					
 					<div class="col-8 m-auto" id="mensagem">
-						
+						<?= $perfil_atualizado ?? ''; ?>
 					</div>
-					<div class="mb-2">	
-						<img class="img-fluid rounded-circle" src="<?= BASE_URL . '/img/usuarios/perfil/' . $this->session->get('id_usuario').'.jpg' ?>" style="width: 128px; height: 128px">
+					<div class="mb-2" id="div-editar-perfil">	
+						<img class="img-fluid rounded-circle mb-2" src="<?= BASE_URL . '/files/usuarios/perfil/' . $fotoPerfil ?>" style="width: 128px; height:128px">
 						<div class="form-group">
-							<label for="nome"><i class="fa fa-camera mr-2"></i>Foto de perfil</label>
-                            <div class="">
-                                <input class="form-control" id="profile_picture" name="profile_picture" type="file"
-                                    accept=".jpg">
-                            </div>
+							<label class="btn btn-sm btn-outline-primary" for="profile-picture" id="label-alterar-foto"><i class="fa fa-camera mr-2"></i>Alterar foto de perfil</label>
+							<input class="form-control d-none" id="profile-picture" name="profile_picture" type="file"
+								accept=".jpg">
 						</div>
 						<!-- ----------------------------------------------------------------------------- -->
 				
 						<div class="form-group">
 							<label for="nome"><i class="fa fa-user mr-2"></i>Nome de usuário:</label>
 							<input class="form-control mb-4 text-center" name="nome" id="nome" value="<?= $this->session->get('usuario') ?>">
-							
+							<div class="invalid-feedback" id="nome-erro">
+                            </div>
 						</div>
 
 						<div class="form-group">
 							<label for="email"><i class="fa fa-envelope mr-2"></i>Endereço de e-mail:</label>
 							<h3><input class="form-control mb-4 text-center" name="email" id="email" value="<?= $this->session->get('email') ?>"></h3>
+							<div class="invalid-feedback" id="email-erro">
+                            </div>
 						</div>
 
 						<!-- ------------------------------------------------------------------------------- -->
 						<div class="form-group">
 							<label for='senha'>Senha: </label>
 							<input class="form-control text-center" type='password'
-								name='senha' id='senha' placeholder="Informe sua senha para prosseguir">
+								name='senha' id='senha' placeholder="Informe sua senha atual">
+								<div class="invalid-feedback" id="senha-erro">
+                            	</div>
 						</div>
-						<a href="<?=BASE_URL . '/usuario/perfil/alterar_senha' ?>">Alterar Senha</a>
-						<br>
+						<button type="button" class="btn btn-sm btn-outline-dark btn-block" id="btn-alterar-senha">Alterar Senha</button>
+						
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
 </div>
-
 <script src="<?= BASE_URL . '/js/forms/form-editar-perfil.js' ?>"></script>
+<style>
+	#label-alterar-foto{
+		background: #ddd;
+	}
+	#label-alterar-foto:hover{
+		background: #000789;
+	}
+</style>

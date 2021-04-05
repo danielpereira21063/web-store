@@ -14,9 +14,9 @@
                         <div id="mensagem"><?= $erro ?? '' ?></div>
                         <form method="POST" id="form-adicionar-produto" enctype="multipart/form-data">
                             <div class="col-md-12 m-auto">
-                                <div class="form-group">
-                                    <label for="img-produto">Imagem</label>
+                                <div class="form-group text-center">
                                     <input type="file" name="img_produto" id="img-produto" class="form-control">
+                                    <label class="btn btn-sm btn-outline-primary mt-1" for="img-produto" id="label-alterar-foto"><i class="fa fa-camera mr-2"></i>Adicionar imagem do produto</label>
                                 </div>
                             </div>
                             <div class="col-md-12 m-auto">

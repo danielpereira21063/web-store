@@ -6,7 +6,8 @@ class ProdutosController extends ControllerBase {
             $this->response->redirect( BASE_URL . '/usuario/login');
         }
     }
-    
+
+
     public function indexAction() {
         $this->controleAcesso();
 
@@ -37,6 +38,22 @@ class ProdutosController extends ControllerBase {
             return false;
         }
     }
+    
+
+    public function pesquisarAction() {
+        $this->controleAcesso();
+
+        if($this->request->isPost()) {
+            $pesquisa = $this->request->getPost('pesquisa');
+            $idUsuario = $this->session->get('id_usuario');
+            $produto = new Produto();
+            $resultado = $produto->pesquisar($pesquisa, $idUsuario);
+            echo json_encode($resultado);
+            return false;
+        }
+        
+    }
+    
 
     public function adicionarAction() {
         $this->controleAcesso();

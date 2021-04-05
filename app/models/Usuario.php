@@ -122,7 +122,7 @@ class Usuario extends \Phalcon\Mvc\Model
                 return false;
             }
         } catch (Exception $e) {
-            echo 'ERRO: ' . $e;
+            echo 'ERRO: ' . $e->getMessage();
             return false;
         }
     }
@@ -148,6 +148,25 @@ class Usuario extends \Phalcon\Mvc\Model
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         
         return count($result) > 0 ? true : false;
+    }
+
+    public function atualizarImagemPerfil($nomeImg, $id_usuario) {
+        try {
+            $imgAtual = $this->di->getDb()->query("SELECT * FROM usuarios WHERE id_usuario = $id_usuario")->fetch(PDO::FETCH_ASSOC)['profile_picture'];
+            $pathImgAtual = dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'usuarios'.DIRECTORY_SEPARATOR.'perfil'.DIRECTORY_SEPARATOR.$imgAtual;
+            if($imgAtual != 'default.png') {
+                if(file_exists($pathImgAtual)) {
+                    unlink($pathImgAtual);
+                }
+            }
+            $query = $this->di->getDb()->prepare('UPDATE usuarios SET profile_picture = :nomeImg WHERE id_usuario = :idUsuario');
+            $query->bindValue(':nomeImg', $nomeImg);
+            $query->bindValue(':idUsuario', $id_usuario);
+        
+            return $query->execute() ? true : false;
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
     }
 
 
