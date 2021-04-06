@@ -13,6 +13,7 @@ class ProdutosController extends ControllerBase {
 
         $this->view->tituloPagina = 'Produtos';
         $this->view->iconePagina = '';
+        $this->view->fotoPerfil = $this->fotoPerfil();
 
         if($this->request->isPost()) {
             $idUsuario = $this->session->get('id_usuario');
@@ -29,6 +30,7 @@ class ProdutosController extends ControllerBase {
 
         $this->view->tituloPagina = 'Meus produtos';
         $this->view->iconePagina = '';
+        $this->view->fotoPerfil = $this->fotoPerfil();
 
         if($this->request->isPost()) {
             $produto = new Produto();
@@ -53,6 +55,19 @@ class ProdutosController extends ControllerBase {
         }
         
     }
+
+    public function pesquisarPorUsuarioAction() {
+        $this->controleAcesso();
+
+        if($this->request->isPost()) {
+            $pesquisa = $this->request->getPost('pesquisa');
+            $idUsuario = $this->session->get('id_usuario');
+            $produto = new Produto();
+            $resultado = $produto->pesquisarPorUsuario($pesquisa, $idUsuario);
+            echo json_encode($resultado);
+            return false;
+        }
+    }
     
 
     public function adicionarAction() {
@@ -60,16 +75,17 @@ class ProdutosController extends ControllerBase {
 
         $this->view->tituloPagina = 'Adicionar produto';
         $this->view->iconePagina = '';
+        $this->view->fotoPerfil = $this->fotoPerfil();
 
         if($this->request->isPost()) {
             $produto = new Produto();
             $dados = $this->request->getPost();
             $dados['id_usuario'] = $this->session->get('id_usuario');
-            
+            $sucesso = false;
             if(!$produto->adicionar($dados)) {
-                $this->view->erro = '<p class="alert alert-danger">Erro ao adicionar produto</p>'; //se não cadastrar o produto
+                return false;
             }
-
+            $sucesso = true;
             if(!empty($_FILES['img_produto']['name'])) { //se for feito o upload de uma imagem
                 //fazer o upload da imagem do produto
                 $maxWidth = 1024;
@@ -77,101 +93,141 @@ class ProdutosController extends ControllerBase {
                 $maxSize = 524288; //aproximadamente 512kb
                 $imgProduto = $_FILES['img_produto'];
                 if(!preg_match("/^image\/(jpg|png|jpeg|pjpg)$/", $imgProduto['type'])) { //se o arquivo não for uma imagem
-                    $this->view->erro = '<p class="alert alert-danger">O tipo de arquivo enviado não é permitido</p>';
+                    $this->session->set('erro', '<p class="alert alert-danger text-center">O tipo de arquivo enviado não é permitido</p>');
+                    $this->response->redirect(BASE_URL . '/produtos/meus' );
                     return false;
                 }
-    
+                
                 //verifica se as dimensões da imagem são válidas
                 $dimensoesProduto = getimagesize($imgProduto['tmp_name']);
                 if($dimensoesProduto[0] > $maxWidth || $dimensoesProduto[1] > $maxHeight) {
-                    $this->view->erro = '<p class="alert alert-danger">As dimensões do arquivo excedem o tamanho máximo permitido</p>';
+                    $this->session->set('erro', '<p class="alert alert-danger text-center">As dimensões do arquivo enviado excedem o tamanho máximo permitido</p>');
+                    $this->response->redirect(BASE_URL . '/produtos/meus' );
                     return false;
                 }
                 
                 //verifica se o tamanho do arquivo é válido
                 if($imgProduto['size'] >  $maxSize) {
-                    $this->view->erro = '<p class="alert alert-danger">O arquivo enviado excede o tamanho máximo permitido</p>';
+                    $this->view->erro = '<p class="alert alert-danger text-center">O arquivo enviado excede o tamanho máximo permitido</p>';
                     return false;
                 }
-    
+                
                 //armazena a imagem do produto na base de dados
                 $nomeImgProduto = uniqid() . '_' . $imgProduto['name'];
-                $produto->atualizarImagemProduto($nomeImgProduto);
+                $produto->adicionarImagemProduto($nomeImgProduto);
                 move_uploaded_file($imgProduto['tmp_name'], 'files/produtos/'.$nomeImgProduto);
+                $sucesso = true;
             }
+            if($sucesso) {
+                $this->session->set('produto_adicionado', true);
+            } else {
+                $this->session->set('produto_adicionado', false);
+            }
+            $this->response->redirect(BASE_URL . '/produtos/meus');
         }
     }
 
-    public function editarAction($id) {
+    public function editarAction($id = null) {
         $this->controleAcesso();
+
+        if(!$id) {
+            $this->response->redirect(BASE_URL . '/produtos/meus');
+            return false;
+        }
 
         $this->view->tituloPagina = 'Editar produto';
         $this->view->iconePagina = '';
-        if($id) {
-            if(is_int($id)) {
-
-            }
-            
-        }
-    }
-
-    public function atualizarFoto() {
-        $this->controleAcesso();
+        $this->view->fotoPerfil = $this->fotoPerfil();
+        $produto = new Produto();
+        $this->view->produto = $produto::findFirstById_produto($id);
+        $sucesso = false;
 
         if($this->request->isPost()) {
-            $produto = new Produto();
-            /*if(!empty($_FILES['img_produto']['name'])) { //se for feito o upload de uma imagem
+            $dados = $this->request->getPost();
+            if($produto->atualizarProduto($id, $dados)) {
+                $sucesso = true;
+            }
+            if(!empty($_FILES['img_produto']['name'])) { //se for feito o upload de uma imagem
+                $sucesso = false;
                 //fazer o upload da imagem do produto
                 $maxWidth = 1024;
                 $maxHeight = 1024;
                 $maxSize = 524288; //aproximadamente 512kb
                 $imgProduto = $_FILES['img_produto'];
                 if(!preg_match("/^image\/(jpg|png|jpeg|pjpg)$/", $imgProduto['type'])) { //se o arquivo não for uma imagem
-                    $this->response->setContent('tipo_nao_permitido');
+                    $this->session->set('erro', '<p class="alert alert-danger text-center">O tipo de arquivo enviado não é permitido</p>');
+                    $this->response->redirect(BASE_URL . '/produtos/meus' );
                     return false;
                 }
-    
+                
                 //verifica se as dimensões da imagem são válidas
                 $dimensoesProduto = getimagesize($imgProduto['tmp_name']);
                 if($dimensoesProduto[0] > $maxWidth || $dimensoesProduto[1] > $maxHeight) {
-                    $this->response->setContent('demensao_excede');
+                    $this->session->set('erro', '<p class="alert alert-danger text-center">As dimensões do arquivo enviado excedem o tamanho máximo permitido</p>');
+                    $this->response->redirect(BASE_URL . '/produtos/meus' );
                     return false;
                 }
                 
                 //verifica se o tamanho do arquivo é válido
                 if($imgProduto['size'] >  $maxSize) {
-                    $this->response->setContent('tamanho_excede');
+                    $this->session->set('erro', '<p class="alert alert-danger text-center">O arquivo enviado excede o tamanho máximo permitido</p>');
+                    $this->response->redirect(BASE_URL . '/produtos/meus' );
                     return false;
                 }
-    
+                
                 //armazena a imagem do produto na base de dados
                 $nomeImgProduto = uniqid() . '_' . $imgProduto['name'];
-                if(!$produto->atualizarImagemProduto($nomeImgProduto)) {
-                    move_uploaded_file($imgProduto['tmp_name'], './files/produtos/'.$nomeImgProduto);
-                    $this->response->setContent('erro_armazenar');
-                    return false;
-                }
-    
-                
-                //cadastro efetuado com sucesso
-                $this->response->setContent('foto_atualizada_sucesso');
+                $produto->atualizarImagemProduto($id, $nomeImgProduto);
+                move_uploaded_file($imgProduto['tmp_name'], 'files/produtos/'.$nomeImgProduto);
+                $sucesso = true;
             }
-            return false;
-            */
+            if($sucesso) {
+                $this->session->set('produto_atualizado', true);
+                $this->response->redirect(BASE_URL . '/produtos/meus' );
+            } else {
+                $this->session->set('produto_atualizado', false);
+                $this->response->redirect(BASE_URL . '/produtos/meus' );
+            }
         }
+
+
     }
 
     public function excluirAction($id = null) {
         $this->controleAcesso();
-        var_dump($id);
+        $this->view->tituloPagina = 'Excluir produto';
+        $this->view->iconePagina = '';
+        $this->view->fotoPerfil = $this->fotoPerfil();
         if(!$id) {
-            
             return false;
         }
         $produto = new Produto();
-        if($produto->excluir($id)) {
-            $produto->excluir($id);
-            return false;
+        $idUserLogado = $this->session->get('id_usuario');
+        $idUserCadastrado = $produto::findFirstById_produto($id)->id_usuario;
+        $this->view->produto = $produto::findFirstById_produto($id);
+        if($this->request->isPost()) {
+            $confirm = $this->request->getPost('confirm');
+            var_dump($this->request->getPost());
+            if(!$confirm) {
+                $this->session->set('cancelado', true);
+                $this->response->redirect(BASE_URL . '/produtos/meus');
+                return false;
+            }
+            if($idUserLogado != $idUserCadastrado) {
+                $this->session->set('erro', '<p class="alert alert-danger text-center">Você não tem permissão para excluir esse produto</p>');
+                $this->response->redirect(BASE_URL . '/produtos/meus');
+                return false;
+            }
+            if($produto->excluir($id)) {
+                $produto->excluir($id);
+                $this->session->set('produto_excluido', true);
+                $this->response->redirect(BASE_URL . '/produtos/meus');
+                return false;
+            } else {
+                $this->session->set('produto_excluido', false);
+                $this->response->redirect(BASE_URL . '/produtos/meus');
+                return false;
+            }
         }
     }
 }

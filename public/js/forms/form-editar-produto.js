@@ -4,7 +4,7 @@ $(document).ready(function() {
     const quant = $('#quant');
     const preco = $('#preco');
     
-    $('#btn-adicionar-produto').on('click', function() {
+    $('#btn-editar-produto').on('click', function() {
         let erros = 4;
 
         if(nomeProduto.val() == '') {
@@ -45,11 +45,6 @@ $(document).ready(function() {
 
 
         if(erros == 0) {
-            if(!isNumber(preco.val())) {
-                preco.addClass('is-invalid');
-                $('#preco-erro').html('O valor inserido não é um número');
-                return;
-            }
             //enviar dados
             // const urlDestino = 'http://127.0.0.1/web-store/produtos/adicionar';
             // return;
@@ -69,19 +64,3 @@ $(document).ready(function() {
 
     });
 });
-
-function isNumber(val) {
-    if(val <= 0 || val >= 1 ) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function nomeValido(nome) {
-    if(nome.lenght >= 2) {
-        return true;
-    } else {
-        return false;
-    }
-}

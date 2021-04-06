@@ -21,3 +21,16 @@
         </div>
     </div>
 </div>
+<?php if($this->session->has('perfil_atualizado')): ?>
+    <script>
+        $(function(){
+            <?php if($this->session->get('perfil_atualizado') == true): ?>
+                // alertify.success('Produto adicionado com sucesso');
+                alertify.success('Perfil atualizado com sucesso');
+            <?php else: ?>
+                alertify.error('Erro ao atualizar perfil');;
+            <?php endif; ?>
+        });
+    </script>
+<?php $this->session->remove('perfil_atualizado'); ?>
+<?php endif; ?>

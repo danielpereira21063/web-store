@@ -10,9 +10,11 @@ class VendasController extends ControllerBase {
 
     public function indexAction() {
         $this->controleAcesso();
+        
 
         $this->view->tituloPagina = 'Minhas vendas';
         $this->view->iconePagina = '';
+        $this->view->fotoPerfil = $this->fotoPerfil();
     }
 
 }

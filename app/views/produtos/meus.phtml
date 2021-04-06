@@ -29,8 +29,74 @@ a:hover {
     <h3 class="text-center">Meus produtos</h3>
     <h5><a href="<?= BASE_URL . '/produtos/meus/adicionar' ?>" class=""><i class="fa fa-plus-square"></i> Adicionar produto</a></h5>
     <hr>
+    <div class="col-md-6 m-auto">
+        <div class="form-group">
+            <div class="input-group">
+                <input type="text" name="pesquisa" id="pesquisar" class="form-control" placeholder="Pesquisar produtos">
+            </div>
+        </div>
+    </div>
+    <div class="col-12 m-auto">
+        <?php if($this->session->has('erro')){ echo $this->session->get('erro'); $this->session->remove('erro'); }?>
+    </div>
     <div class="row" id="row-produtos">
         <!-- meus produtos -->
     </div>
 </div>
+<?php if($this->session->has('produto_adicionado')): ?>
+    <script>
+        $(document).ready(function(){
+            <?php if($this->session->get('produto_adicionado') == true): ?>
+                alertify.success('Produto adicionado com sucesso');
+            <?php else: ?>
+                alertify.error('Erro ao adicionar produto');;
+            <?php endif; ?>
+        });
+    </script>
+<?php $this->session->remove('produto_adicionado'); ?>
+<?php endif; ?>
+
+<!-- #################################################  -->
+
+<?php if($this->session->has('produto_atualizado')): ?>
+    <script>
+        $(function(){
+            <?php if($this->session->get('produto_atualizado') == true): ?>
+                // alertify.success('Produto adicionado com sucesso');
+                alertify.success('Produto atualizado com sucesso');
+            <?php else: ?>
+                alertify.error('Erro ao atualizar produto');;
+            <?php endif; ?>
+        });
+    </script>
+<?php $this->session->remove('produto_atualizado'); ?>
+<?php endif; ?>
+<!-- #################################################  -->
+
+<?php if($this->session->has('produto_excluido')): ?>
+    <script>
+        $(function(){
+            <?php if($this->session->get('produto_excluido') == true): ?>
+                // alertify.success('Produto adicionado com sucesso');
+                alertify.success('Produto excluido com sucesso');
+            <?php else: ?>
+                alertify.error('Erro ao excluir produto');;
+            <?php endif; ?>
+        });
+    </script>
+<?php $this->session->remove('produto_excluido'); ?>
+<?php endif; ?>
+
+<?php if($this->session->has('cancelado')): ?>
+    <script>
+        $(function(){
+            <?php if($this->session->get('cancelado') == true): ?>
+                // alertify.success('Produto adicionado com sucesso');
+                alertify.success('Ação cancelada pelo usuário');
+            <?php endif; ?>
+        });
+    </script>
+<?php $this->session->remove('cancelado'); ?>
+<?php endif; ?>
+
 <script src="<?= BASE_URL . '/js/listar-produtos-by-user.js' ?>"></script>

@@ -66,6 +66,10 @@ class UsuarioController extends ControllerBase {
                 $this->response->setContent('erro_armazenar');
                 return false;
             }
+            return false;
+        }
+        if($this->session->has('id_usuario')) {
+            $this->view->fotoPerfil = $this->fotoPerfil();
         }
     }
 
@@ -75,13 +79,13 @@ class UsuarioController extends ControllerBase {
         $this->view->iconePagina = 'login.png';
 
         if($this->request->isPost()) {
+            $user = new Usuario();
             $dados = $this->request->getPost();
 
             if(in_array('', $dados)) {
                 return false;
             }
 
-            $user = new Usuario();
             if($user->login($dados)) { //se email ou senha estiverem corretos
                 $dadosParaSessao = $user::findFirstByEmail($dados['email']);
                 if($this->session->has('id_usuario')) { //se já existir sessão, remove os dados da sessão ativa
@@ -98,14 +102,18 @@ class UsuarioController extends ControllerBase {
                 return false;
             }
         }
+        if($this->session->has('id_usuario')) {
+            $this->view->fotoPerfil = $this->fotoPerfil();
+        }
     }
 
     public function signup_sucessoAction() {
-        $this->view->tituloPagina = 'Conta criada com sucesso';
-        $this->view->iconePagina = 'sign-in.png';
         if(!$this->session->has('signup_sucesso')) { //se não existir sessão
             $this->response->redirect(BASE_URL . '/usuario/signup');
         }
+        $this->view->tituloPagina = 'Conta criada com sucesso';
+        $this->view->iconePagina = 'sign-in.png';
+        $this->view->fotoPerfil = $this->fotoPerfil();
     }
 
     public function logoutAction() {
@@ -117,11 +125,10 @@ class UsuarioController extends ControllerBase {
 
     public function perfilAction() {
         $this->controleAcesso();
+
         $this->view->tituloPagina = 'Perfil';
         $this->view->iconePagina = 'user.png';
-        $idUsuario = $this->session->get('id_usuario');
-        $user = new Usuario();
-        $this->view->fotoPerfil = $user::findFirstById_usuario($idUsuario)->profile_picture;
+        $this->view->fotoPerfil = $this->fotoPerfil();
     }
     
     public function editarAction() {
@@ -130,10 +137,10 @@ class UsuarioController extends ControllerBase {
         $this->view->tituloPagina = 'Editar perfil';
         $this->view->iconePagina = 'user.png';
         $idUsuario = $this->session->get('id_usuario');
-        $user = new Usuario();
-        $this->view->fotoPerfil = $user::findFirstById_usuario($idUsuario)->profile_picture;
-
+        $this->view->fotoPerfil = $this->fotoPerfil();
+        
         if($this->request->isPost()) {
+            $user = new Usuario();
             if(!empty($_FILES['profile_picture']['name'])) {
                 $maxWidth = 1024;
                 $maxHeight = 1024;
@@ -161,12 +168,14 @@ class UsuarioController extends ControllerBase {
                 $nomefotoPerfil = uniqid() . '_' . $fotoPerfil['name'];
                 $user->atualizarImagemPerfil($nomefotoPerfil, $idUsuario);
                 move_uploaded_file($fotoPerfil['tmp_name'], 'files/usuarios/perfil/'.$nomefotoPerfil);
-                $this->view->perfil_atualizado = '<p class="alert-alert-success">Perfil atualizado com sucesso</p>';
             }
+            $this->session->set('perfil_atualizado', true);
+            $this->response->redirect(BASE_URL . '/usuario/perfil');
         }
     }
     
     public function excluirAction() {
         
     }
+
 }

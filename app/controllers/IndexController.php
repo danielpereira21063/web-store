@@ -7,8 +7,10 @@ class IndexController extends ControllerBase {
             //se houver sessão redirecionar o usuário para home
             $this->response->redirect( BASE_URL . '/home');
         }
+        
         $this->view->tituloPagina = 'Início';
         $this->view->iconePagina = 'logo.png';
+        $this->view->fotoPerfil = $this->fotoPerfil();
         
     }
 
