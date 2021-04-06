@@ -5,6 +5,6 @@ class ComprasController extends ControllerBase {
         $this->view->tituloPagina = 'Minhas compras';
         $this->view->iconePagina = '';
         
-        $this->view->fotoPerfil = $this->fotoPerfil();
+        // $this->view->fotoPerfil = $this->fotoPerfil();
     }
 }

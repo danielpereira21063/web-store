@@ -37,4 +37,10 @@ $router->add('/produtos/meus/excluir', ['controller' => 'produtos', 'action' => 
 
 //vendas
 $router->add('/vendas/', ['controller' => 'vendas', 'action' => 'minhas']);
+
+
+//saldo
+$router->add('/saldo/', ['controller' => 'saldo', 'action' => 'index']);
+$router->add('/saldo/adicionar', ['controller' => 'saldo', 'action' => 'adicionar']);
+
 $router->handle();  

@@ -68,9 +68,6 @@ class UsuarioController extends ControllerBase {
             }
             return false;
         }
-        if($this->session->has('id_usuario')) {
-            $this->view->fotoPerfil = $this->fotoPerfil();
-        }
     }
 
 
@@ -102,9 +99,6 @@ class UsuarioController extends ControllerBase {
                 return false;
             }
         }
-        if($this->session->has('id_usuario')) {
-            $this->view->fotoPerfil = $this->fotoPerfil();
-        }
     }
 
     public function signup_sucessoAction() {
@@ -113,7 +107,6 @@ class UsuarioController extends ControllerBase {
         }
         $this->view->tituloPagina = 'Conta criada com sucesso';
         $this->view->iconePagina = 'sign-in.png';
-        $this->view->fotoPerfil = $this->fotoPerfil();
     }
 
     public function logoutAction() {
@@ -128,7 +121,6 @@ class UsuarioController extends ControllerBase {
 
         $this->view->tituloPagina = 'Perfil';
         $this->view->iconePagina = 'user.png';
-        $this->view->fotoPerfil = $this->fotoPerfil();
     }
     
     public function editarAction() {
@@ -137,7 +129,7 @@ class UsuarioController extends ControllerBase {
         $this->view->tituloPagina = 'Editar perfil';
         $this->view->iconePagina = 'user.png';
         $idUsuario = $this->session->get('id_usuario');
-        $this->view->fotoPerfil = $this->fotoPerfil();
+        // $this->view->fotoPerfil = $this->fotoPerfil();
         
         if($this->request->isPost()) {
             $user = new Usuario();

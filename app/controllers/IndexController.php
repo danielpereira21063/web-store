@@ -10,7 +10,6 @@ class IndexController extends ControllerBase {
         
         $this->view->tituloPagina = 'Início';
         $this->view->iconePagina = 'logo.png';
-        $this->view->fotoPerfil = $this->fotoPerfil();
         
     }
 

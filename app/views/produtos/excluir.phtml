@@ -27,13 +27,16 @@ a:hover {
 <div class="col-md-12 col-sm-12 col-xl-8 pt-5 pb-5 m-auto">
     <h2 class="text-center">Deseja realmente excluir esse produto?</h2>
     <div class="pb-3 pt-3 produto mt-3">
-        <a href="<?= BASE_URL . '/produtos/meus' ?>" class="btn btn-sm btn-primary float-left"><i
-                class="fa fa-arrow-left text-light mr-2"></i>Cancelar</a>
-                <form action="<?=BASE_URL . '/produtos/excluir/'.$produto->id_produto ?>" method="POST">
+        <div class="col-10 pr-5 pl-5 m-auto">
+            <form action="<?=BASE_URL . '/produtos/excluir/'.$produto->id_produto ?>" method="POST">
+            <a href="<?= BASE_URL . '/produtos/meus' ?>" class="btn btn-sm btn-primary float-left"><i
+                    class="fa fa-arrow-left text-light mr-2"></i>Cancelar</a>
+
                     <input type="text" name="confirm" id="" value="1" class="d-none">
                     <button type="submit" class="btn btn-sm btn-danger float-right"><i
                         class="fa fa-trash text-light mr-2"></i>Excluir</button>
-                </form>
+                    </form>
+                </div>
                 <br>
     </div>
     <div class="card mt-3">

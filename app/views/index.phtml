@@ -82,10 +82,16 @@
                                     <span class="text-center"><?= $this->session->get('usuario') ?></span>
                                 </a>
                             </h6>
+                            <a class="text-light" href="<?= BASE_URL . '/saldo' ?>"style="font-size: 12pt">Saldo: <strong class="<?= $saldo > 0 ? 'text-success' : 'text-danger' ?>">R$<?=$saldo?></strong>
+                            </a>
                             <li class="nav-item dropdown">
                                 <div class="" aria-labelledby="dropdown01">
+                                    <div class="dropdown-divider"></div>
 
-                                     <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item text-light" href="<?= BASE_URL . '/saldo/adicionar' ?>"><i
+                                            class="fa fa-plus mr-2"></i>Adicionar dinheiro
+                                    </a>
+
                                     <a class="dropdown-item text-light" href="<?= BASE_URL . '/usuario/perfil' ?>"><i
                                             class="fa fa-user mr-2"></i>Meu perfil
                                     </a>

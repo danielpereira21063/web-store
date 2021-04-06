@@ -13,7 +13,7 @@ class ProdutosController extends ControllerBase {
 
         $this->view->tituloPagina = 'Produtos';
         $this->view->iconePagina = '';
-        $this->view->fotoPerfil = $this->fotoPerfil();
+        // $this->view->fotoPerfil = $this->fotoPerfil();
 
         if($this->request->isPost()) {
             $idUsuario = $this->session->get('id_usuario');
@@ -30,7 +30,7 @@ class ProdutosController extends ControllerBase {
 
         $this->view->tituloPagina = 'Meus produtos';
         $this->view->iconePagina = '';
-        $this->view->fotoPerfil = $this->fotoPerfil();
+        // $this->view->fotoPerfil = $this->fotoPerfil();
 
         if($this->request->isPost()) {
             $produto = new Produto();
@@ -75,7 +75,7 @@ class ProdutosController extends ControllerBase {
 
         $this->view->tituloPagina = 'Adicionar produto';
         $this->view->iconePagina = '';
-        $this->view->fotoPerfil = $this->fotoPerfil();
+        // $this->view->fotoPerfil = $this->fotoPerfil();
 
         if($this->request->isPost()) {
             $produto = new Produto();
@@ -137,7 +137,7 @@ class ProdutosController extends ControllerBase {
 
         $this->view->tituloPagina = 'Editar produto';
         $this->view->iconePagina = '';
-        $this->view->fotoPerfil = $this->fotoPerfil();
+        // $this->view->fotoPerfil = $this->fotoPerfil();
         $produto = new Produto();
         $this->view->produto = $produto::findFirstById_produto($id);
         $sucesso = false;
@@ -197,7 +197,7 @@ class ProdutosController extends ControllerBase {
         $this->controleAcesso();
         $this->view->tituloPagina = 'Excluir produto';
         $this->view->iconePagina = '';
-        $this->view->fotoPerfil = $this->fotoPerfil();
+        // $this->view->fotoPerfil = $this->fotoPerfil();
         if(!$id) {
             return false;
         }
@@ -229,5 +229,20 @@ class ProdutosController extends ControllerBase {
                 return false;
             }
         }
+    }
+
+    public function comprarAction($id) {
+        $this->controleAcesso();
+        $this->view->tituloPagina = 'Comprar';
+        $this->view->iconePagina = '';
+    }
+
+
+    public function detalhesAction($id) {
+        $this->controleAcesso();
+        $this->view->tituloPagina = 'Detalhes do produto';
+        $this->view->iconePagina = '';
+        $produto = new Produto();
+        // $this->view->produto = $produto::findFirstById_produto($id);
     }
 }

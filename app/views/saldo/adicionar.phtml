@@ -1,0 +1,101 @@
+<style>
+    .btn-responder{
+        background-color: #ccc;
+        color: black;
+        font-weight: bolder;
+    }
+    .btn-responder:hover {
+        background: #adc;
+    }
+</style>
+<div class="container p-5 mt-5">
+    <div class="col-sm-12 col-xl-8 col-xs-8 col-md-12 col-lg-8 m-auto">
+        <div class="card">
+            <div class="card-header text-center text-light bg-dark">
+                <h6>Acerte as perguntas abaixo para adicionar dinheiro.</h6>
+            </div>
+            <div class="card-body pb-5 pt-5">
+                <form method="POST" class="">
+                    <h6 class="text-center" id="valor-pergunta">Valor da pergunta: <strong class="text-success">R$20,00</strong></h6>
+                    <hr>
+                    <div class="form-group">
+                        <h3 class="text-left form-control-xl text-center" id="pergunta">Qual a cor do céu?</h3>
+                        <input type="hidden" name="resposta" id="resposta" value="">
+                        <p>
+                            <input type="button" class="btn btn-responder" value="a">
+                        </p>
+                        <p>
+                            <input type="button" class="btn btn-responder" value="b">
+                        </p>
+                        <p>
+                            <input type="button" class="btn btn-responder" value="c">
+                        </p>
+                        <p>
+                            <input type="button" class="btn btn-responder" value="d">
+                        </p>
+                        <button class="btn btn-outline-primary btn-sm" type="button" id="enviar-resposta">Enviar resposta <i class="ml-2 fa fa-arrow-right"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        const btnResponder = $('.btn-responder');
+        const resposta = $('#resposta');
+        btnResponder.on('click', function(event) {
+            btn = event.target;
+            if(btn.value == 'a') {
+                resposta.val(btn.value);
+                btn.style.color = '#fff';
+                btn.style.backgroundColor = 'green';
+
+                for(let i=0; i <= 3; i++) {
+                    if(btnResponder[i] != btn) {
+                        resposta.val(btn.value);
+                        btnResponder[i].style.color = 'black';
+                        btnResponder[i].style.backgroundColor = '#ccc';
+                    }
+                }
+            } else if(btn.value == 'b') {
+                resposta.val(btn.value);
+                btn.style.color = '#fff';
+                btn.style.backgroundColor = 'green';
+
+                for(let i=0; i <= 3; i++) {
+                    if(btnResponder[i] != btn) {
+                        resposta.val(btn.value);
+                        btnResponder[i].style.color = 'black';
+                        btnResponder[i].style.backgroundColor = '#ccc';
+                    }
+                }
+            } else if(btn.value == 'c') {
+                resposta.val(btn.value);
+                btn.style.color = '#fff';
+                btn.style.backgroundColor = 'green';
+
+                for(let i=0; i <= 3; i++) {
+                    if(btnResponder[i] != btn) {
+                        resposta.val(btn.value);
+                        btnResponder[i].style.color = 'black';
+                        btnResponder[i].style.backgroundColor = '#ccc';
+                    }
+                }
+            } else if(btn.value == 'd') {
+                resposta.val(btn.value);
+                btn.style.color = '#fff';
+                btn.style.backgroundColor = 'green';
+
+                for(let i=0; i <= 3; i++) {
+                    if(btnResponder[i] != btn) {
+                        resposta.val(btn.value);
+                        btnResponder[i].style.color = 'black';
+                        btnResponder[i].style.backgroundColor = '#ccc';
+                    }
+                }
+            }
+        });
+    });
+</script>
