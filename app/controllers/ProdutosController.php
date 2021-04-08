@@ -243,6 +243,6 @@ class ProdutosController extends ControllerBase {
         $this->view->tituloPagina = 'Detalhes do produto';
         $this->view->iconePagina = '';
         $produto = new Produto();
-        // $this->view->produto = $produto::findFirstById_produto($id);
+        $this->view->produto = $produto->listarPorIdProduto($id);
     }
 }

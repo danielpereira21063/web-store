@@ -10,7 +10,6 @@ class ControllerBase extends Controller
             $user = new Usuario();
             $idUsuario = $this->session->get('id_usuario');
             $this->view->fotoPerfil = $user::findFirstById_usuario($idUsuario)->profile_picture;
-            $this->view->saldo = '200,35';
         }
     }
 }

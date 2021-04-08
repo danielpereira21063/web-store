@@ -62,4 +62,20 @@ class Saldo extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
+    public function adicionar($valor, $id_usuario) {
+        $saldoAtual = $this->di->getDb()->query("SELECT id_usuario, saldo FROM saldos WHERE id_usuario = $id_usuario")->fetch(PDO::FETCH_ASSOC)['saldo']; //pegar o saldo atual
+        
+        $novoSaldo = $saldoAtual + $valor;
+        $query = $this->di->getDb()->prepare("UPDATE saldos SET saldo = :novoSaldo WHERE id_usuario = :id_usuario");
+        $query->bindValue(':novoSaldo', $novoSaldo);
+        $query->bindValue(':id_usuario', $id_usuario);
+
+        return $query->execute();
+    }
+
+
+    public function saldoUsuario($idUsuario) {
+        $query = $this->di->getDb()->query("SELECT * FROM saldos WHERE id_usuario = $idUsuario");
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
 }

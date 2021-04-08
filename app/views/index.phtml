@@ -82,7 +82,7 @@
                                     <span class="text-center"><?= $this->session->get('usuario') ?></span>
                                 </a>
                             </h6>
-                            <a class="text-light" href="<?= BASE_URL . '/saldo' ?>"style="font-size: 12pt">Saldo: <strong class="<?= $saldo > 0 ? 'text-success' : 'text-danger' ?>">R$<?=$saldo?></strong>
+                            <a class="text-light ml-2" href="<?= BASE_URL . '/saldo' ?>"style="font-size: 11pt">SALDO: <strong class="" id="saldo-usuario">R$</strong>
                             </a>
                             <li class="nav-item dropdown">
                                 <div class="" aria-labelledby="dropdown01">
@@ -146,11 +146,15 @@
     <script src="<?= BASE_URL. '/js/popper.js' ?>"></script>
     <script src="<?= BASE_URL. '/js/bootstrap.js' ?>"></script>
     <script src="<?= BASE_URL. '/alertifyjs/alertify.js' ?>"></script>
+    <script src="<?= BASE_URL. '/js/main.js' ?>"></script>
 
     <script>
         $(document).ready(function () {
             $('[data-toggle="offcanvas"], #navToggle').on('click', function () {
                 $('.offcanvas-collapse').toggleClass('open');
+            });
+            $('[data-toggle="offcanvas"], .navbar-collapse').on('mouseleave', function () {
+                $('#navToggle').click();
             });
         });
     </script>

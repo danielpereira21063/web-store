@@ -190,4 +190,9 @@ class Produto extends \Phalcon\Mvc\Model
         $query->bindValue(':id', $id);
         return $query->execute();
     }
+
+    public function listarPorIdProduto($id) {
+        $query = $this->di->getDb()->query("SELECT produtos.id_produto, produtos.id_usuario, produtos.nome_produto, produtos.quantidade, produtos.preco, produtos.foto, produtos.descricao, produtos.adicionado_em, usuarios.profile_picture AS foto_vendedor, usuarios.nome AS vendedor FROM produtos JOIN usuarios ON usuarios.id_usuario = produtos.id_usuario WHERE id_produto = $id");
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
 }
