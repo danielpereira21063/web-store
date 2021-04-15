@@ -33,6 +33,8 @@ $router->add('/produtos/meus', ['controller' => 'produtos', 'action' => 'meus'])
 $router->add('/produtos/editar', ['controller' => 'produtos', 'action' => 'editar']);
 $router->add('/produtos/meus/adicionar', ['controller' => 'produtos', 'action' => 'adicionar']);
 $router->add('/produtos/meus/excluir', ['controller' => 'produtos', 'action' => 'excluir']);
+$router->add('/produtos/comprar', ['controller' => 'produtos', 'action' => 'comprar']);
+$router->add('/produtos/compra_realizada', ['controller' => 'produtos', 'action' => 'compra_realizada']);
 
 
 //vendas
@@ -42,5 +44,7 @@ $router->add('/vendas/', ['controller' => 'vendas', 'action' => 'minhas']);
 //saldo
 $router->add('/saldo/', ['controller' => 'saldo', 'action' => 'index']);
 $router->add('/saldo/adicionar', ['controller' => 'saldo', 'action' => 'adicionar']);
+
+
 
 $router->handle();  

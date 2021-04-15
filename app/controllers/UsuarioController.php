@@ -3,13 +3,6 @@ class UsuarioController extends ControllerBase {
     public function indexAction() {
         $this->response->redirect(BASE_URL . '/usuario/login');
     }
-
-    private function controleAcesso() {
-        if(!$this->session->has('id_usuario')) { //se não existir a sessão de usuário
-            $this->session->set('acesso_negado', 'Acesso negado! Faça login para ter acesso ao sistema.');
-            $this->response->redirect( BASE_URL . '/usuario/login');
-        }
-    }
     
     public function signupAction() {
         $this->view->tituloPagina = 'Criar conta';

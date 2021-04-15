@@ -1,0 +1,21 @@
+<?php //if($this->session->has('compra_realizada')): ?>
+<div class="col-12 pt-5 pb-5">
+    <h3 class="text-center">Compra realizada com sucesso</h3>
+    <hr>
+    <div class="col-md-6 col-lg-4 col-sm-6 col-xs-6 p-2 m-auto">
+        <img src="<?= BASE_URL . '/files/produtos/'.$produto->foto?>" alt="" class="img-fluid">
+    </div>
+    <div class="col-12 col-md-6 col-sm-6 m-auto">
+        <p><span>Você comprou: <strong style="color: #000;"><?=$produto->nome_produto?></strong></span></p>
+        <p><span>Valor da compra: <strong style="color: rgb(10,125,10);">R$<?=$produto->preco?></strong></span></p>
+        <p><span>Data da compra: <strong style="color: #000;"><?= date('d/m/Y H:m:s') ?></strong></span></p>
+        <div class="col-12 text-center">
+            <a class="text-center" href="<?= BASE_URL . '/produtos/' ?>">Voltar às compras</a>
+        </div>
+    </div>
+    <br>
+</div>
+<?php $this->session->remove('compra_realizada'); ?>
+<?php //else: ?>
+    <?php //$this->response->redirect(BASE_URL . '/produtos/') ?>
+<?php //endif; ?>

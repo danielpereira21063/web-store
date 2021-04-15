@@ -78,4 +78,9 @@ class Saldo extends \Phalcon\Mvc\Model
         $query = $this->di->getDb()->query("SELECT * FROM saldos WHERE id_usuario = $idUsuario");
         return $query->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function atualizarSaldo($novoSaldo, $idUsuario) {
+        $query = $this->di->getDb()->query("UPDATE saldos SET saldo = $novoSaldo WHERE id_usuario = $idUsuario");
+        return $query;
+    }
 }

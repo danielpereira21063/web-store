@@ -1,0 +1,39 @@
+<div class="col-sm-12 col-md-12 col-xl-8 col-lg-8 col-xs-12 m-auto pb-5 mb-5">
+    <div class="mt-5" style="background:#fff; border-radius: 20px;">
+        <div class="card p-3" style="width: 100%;">
+            <img class="img-fluid m-auto" src="<?= BASE_URL . '/files/produtos/'.$produto['foto']?>"
+                alt="<?=$produto['nome_produto']?>" style="max-width: 200px">
+            <div class="caption text-center mt-2">
+                <h6>Você está prestes a comprar: <strong><?= $produto['nome_produto']; ?></strong></h6>
+                <p class="text-center text-success"><small><strong><?=$produto['quantidade']?> Disponíveis</strong></small>
+                </p>
+            </div>
+            <p><small><span class="text-dark" style="font-weight: bold;">Vendido por </span>&nbsp;<img width="28px"
+                        class="rounded-circle"
+                        src="<?=BASE_URL . '/files/usuarios/perfil/'.$produto['foto_vendedor']?>"    ><strong><a
+                            href="<?= BASE_URL . '/usuario/ver/'.$produto['id_usuario']?>"><?=$produto['vendedor']?></small></a></strong>
+            </p>
+            <div class="preco text-center mb-2">
+                <h5>Você pagará: <strong class="text-danger">R$<?=$produto['preco']?></strong></h5>
+                <small class="text-dark mb-3 p-2" style="font-weight: bold;">Saldo após a compra: <span class="" id="saldo-apos-compra" <?= $saldoAposCompra > 0 ? 'style="color: rgb(000, 80, 00);"' : 'style="color: rgb(0180, 100, 000);"'?>>R$ <?=$saldoAposCompra?></span></small>
+            </div>
+            <form method="POST" action="<?= BASE_URL . '/produtos/comprar/'.$produto['id_produto'] ?>">
+                <input type="hidden" name="confirm_compra" value="true">
+                <input type="submit" value="Confirmar compra" class="btn btn-block btn-success text-center"
+                    href="<?= BASE_URL . '/produtos/comprar/' . $produto['id_produto']?>">
+                <a class="btn btn-sm btn-block btn-outline-danger text-center"
+                    href="<?= BASE_URL . '/produtos' ?>"><i class="fa fa-arrow-left"></i>&nbsp;Cancelar</a>
+                </form>
+        </div>
+    </div>
+</div>
+<!-- <script>
+    $.ajax({
+        type: 'post',
+        url: 'http://127.0.0.1/web-store/saldo/saldoUsuario',
+        success: function(r) {
+            let dados = JSON.parse(r);
+            $('#saldo-apos-compra').html(`R$${dados['saldo']}`);
+        }
+    });
+</script> -->

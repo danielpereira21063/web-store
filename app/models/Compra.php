@@ -68,4 +68,10 @@ class Compra extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
+    public function listarCompraUsuario($id_usuario) {
+        $query = $this->di->getDb()->query("SELECT compras.id_compra, compras.id_produto, compras.id_comprador, compras.id_vendedor, data_compra, produtos.nome_produto AS produto, usuarios.nome as vendedor FROM compras JOIN produtos ON compras.id_produto = produtos.id_produto AND compras.id_comprador = $id_usuario JOIN usuarios ON compras.id_vendedor <> $id_usuario AND usuarios.id_usuario = produtos.id_usuario");
+
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

@@ -24,6 +24,7 @@ $(document).ready(function() {
     }
     
     function principal() {
+        atualizarSaldoEmConta();
         limparCodigoHtml();
         quiz = gerarPergunta();
         perguntar(quiz);
@@ -91,7 +92,7 @@ $(document).ready(function() {
                     saldo: saldoGanho,
                 },
                 success: function(r) {
-                    console.log('sal env ', saldoGanho)
+                    console.log('saldo enviado: ', saldoGanho)
                     atualizarSaldoEmConta();
                 }
             });
@@ -108,7 +109,7 @@ $(document).ready(function() {
                     saldo: saldoGanho,
                 },
                 success: function() {
-                    console.log('sal env ', saldoGanho);
+                    console.log('saldo enviado: ', saldoGanho);
                     atualizarSaldoEmConta();
                     principal();
                 }
@@ -151,6 +152,5 @@ $(document).ready(function() {
             }
         });
     }
-    atualizarSaldoEmConta();
     principal();
 });

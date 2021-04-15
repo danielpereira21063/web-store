@@ -29,8 +29,8 @@ a:hover {
     <div class="pb-3 pt-3 produto mt-3">
         <div class="col-10 pr-5 pl-5 m-auto">
             <form action="<?=BASE_URL . '/produtos/excluir/'.$produto->id_produto ?>" method="POST">
-            <a href="<?= BASE_URL . '/produtos/meus' ?>" class="btn btn-sm btn-primary float-left"><i
-                    class="fa fa-arrow-left text-light mr-2"></i>Cancelar</a>
+            <a href="<?= BASE_URL . '/produtos/meus' ?>" class="btn btn-sm btn-outline-primary float-left"><i
+                    class="fa fa-arrow-left mr-2"></i>Cancelar</a>
 
                     <input type="text" name="confirm" id="" value="1" class="d-none">
                     <button type="submit" class="btn btn-sm btn-danger float-right"><i
@@ -48,7 +48,7 @@ a:hover {
             Adicionado em: <strong><?=$produto->adicionado_em?></strong>
             <p><small class="text-success"><strong><?=$produto->quantidade .' '?>disponíveis no stock</strong></small></p>
             <div class="preco mt-3">
-                <span class="text-dark">Preco:  <span class="text-danger">R$<?=$produto->preco?></span></span>
+                <span class="text-dark">Preço:  <span class="text-danger">R$<?=$produto->preco?></span></span>
             </div>
         </div>
     </div>

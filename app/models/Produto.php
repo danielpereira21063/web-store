@@ -195,4 +195,37 @@ class Produto extends \Phalcon\Mvc\Model
         $query = $this->di->getDb()->query("SELECT produtos.id_produto, produtos.id_usuario, produtos.nome_produto, produtos.quantidade, produtos.preco, produtos.foto, produtos.descricao, produtos.adicionado_em, usuarios.profile_picture AS foto_vendedor, usuarios.nome AS vendedor FROM produtos JOIN usuarios ON usuarios.id_usuario = produtos.id_usuario WHERE id_produto = $id");
         return $query->fetch(PDO::FETCH_ASSOC);
     }
+
+
+    public function comprarProduto($idUser, $idVendedor, $idProduto) {
+        $query = $this->di->getDb()->prepare('INSERT INTO compras (id_comprador, id_produto, id_vendedor) VALUES (:idUser, :idProduto, :idVendedor)');
+        $query->bindValue(':idUser', $idUser);
+        $query->bindValue(':idProduto', $idProduto);
+        $query->bindValue(':idVendedor', $idVendedor);
+        if(!$query->execute()) {
+            return false;
+        }
+        $saldoModel = new Saldo();
+        $saldoAtual = $saldoModel->findFirstById_usuario($idUser)->saldo;
+        $precoProduto = self::findFirstById_produto($idProduto)->preco;
+        $precoProduto = str_replace(',', '.', $precoProduto);
+        $novoSaldo = $saldoAtual - $precoProduto;
+
+        if(!$this->alterarQuantidade($idProduto, $idUser)) {
+            return false;
+        }
+        
+        $saldoModel->atualizarSaldo($novoSaldo, $idUser);
+    }
+
+    private function alterarQuantidade($idProduto, $quant) {
+        $quantidadeAtual = self::findFirstById_produto($idProduto)->quantidade;
+        $quantidadeAposCompra = $quantidadeAtual -= 1;
+        $query = $this->di->getDb()->query("UPDATE produtos SET quantidade = $quantidadeAposCompra WHERE id_produto = $idProduto");
+        if($query) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

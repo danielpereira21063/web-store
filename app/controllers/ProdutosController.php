@@ -1,12 +1,5 @@
 <?php
 class ProdutosController extends ControllerBase {
-    private function controleAcesso() {
-        if(!$this->session->has('id_usuario')) { //se não existir a sessão de usuário
-            $this->session->set('acesso_negado', 'Acesso negado! Faça login para ter acesso ao sistema.');
-            $this->response->redirect( BASE_URL . '/usuario/login');
-        }
-    }
-
 
     public function indexAction() {
         $this->controleAcesso();
@@ -197,7 +190,6 @@ class ProdutosController extends ControllerBase {
         $this->controleAcesso();
         $this->view->tituloPagina = 'Excluir produto';
         $this->view->iconePagina = '';
-        // $this->view->fotoPerfil = $this->fotoPerfil();
         if(!$id) {
             return false;
         }
@@ -231,10 +223,46 @@ class ProdutosController extends ControllerBase {
         }
     }
 
-    public function comprarAction($id) {
+
+    public function comprarAction($id = null) {
         $this->controleAcesso();
         $this->view->tituloPagina = 'Comprar';
         $this->view->iconePagina = '';
+
+        if(!$id) {
+            return false;
+        }
+
+        $produtoModel = new Produto();
+        $produto = $produtoModel->listarPorIdProduto($id);
+        $precoProduto = $produtoModel->listarPorIdProduto($id)['preco'];
+        $saldoUser = $this->saldoUsuario['saldo'];
+        $precoProduto = str_replace(',', '.', $precoProduto);
+        $this->view->produto = $produto;
+        $saldoAposCompra = str_replace('.',',', $saldoUser - $precoProduto);
+        $this->view->saldoAposCompra = $saldoAposCompra;
+
+        if(!$this->request->isPost()) {
+            return;
+        }
+        $confirm = $this->request->getPost('confirm_compra');
+        
+        if($confirm) {
+            $idUser = $this->session->get('id_usuario');
+            $idVendedor = $produtoModel::findFirstById_produto($id)->id_usuario;
+            $produtoModel->comprarProduto($idUser, $idVendedor, $id);
+            $this->session->set('compra_realizada', true);
+            $this->response->redirect(BASE_URL . '/produtos/compra_realizada/'.$id);
+        }
+    }
+
+
+    public function compra_realizadaAction($id_produto) {
+        $this->controleAcesso();
+        $this->view->tituloPagina = 'Compra realizada';
+        $this->view->iconePagina = '';
+        $produto = new Produto();
+        $this->view->produto = $produto::findFirstByIdProduto($id_produto);
     }
 
 

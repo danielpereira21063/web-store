@@ -1,12 +1,5 @@
 <?php
 class VendasController extends ControllerBase {
-    
-    private function controleAcesso() {
-        if(!$this->session->has('id_usuario')) { //se não existir a sessão de usuário
-            $this->session->set('acesso_negado', 'Acesso negado! Faça login para ter acesso ao sistema.');
-            $this->response->redirect( BASE_URL . '/usuario/login');
-        }
-    }
 
     public function indexAction() {
         $this->controleAcesso();
@@ -14,7 +7,9 @@ class VendasController extends ControllerBase {
 
         $this->view->tituloPagina = 'Minhas vendas';
         $this->view->iconePagina = '';
-        // $this->view->fotoPerfil = $this->fotoPerfil();
+        $venda = new Venda();
+        $id_usuario = $this->session->get('id_usuario');
+        $this->view->vendas = $venda->listarVendaUsuario($id_usuario);
     }
 
 }
