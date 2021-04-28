@@ -70,7 +70,7 @@ class Venda extends \Phalcon\Mvc\Model
 
 
     public function listarVendaUsuario($id_usuario) {
-        $query = $this->di->getDb()->query("SELECT compras.id_compra, compras.id_produto, compras.id_comprador, compras.id_vendedor, data_compra, produtos.nome_produto AS produto, usuarios.nome AS comprador FROM compras JOIN produtos ON compras.id_produto = produtos.id_produto AND compras.id_comprador <> $id_usuario JOIN usuarios ON compras.id_comprador AND usuarios.id_usuario = compras.id_comprador");
+        $query = $this->di->getDb()->query("SELECT compras.id_compra, compras.id_produto, compras.id_comprador, compras.id_vendedor, data_compra, produtos.nome_produto AS produto, usuarios.nome AS comprador FROM compras JOIN produtos ON compras.id_produto = produtos.id_produto AND compras.id_comprador <> $id_usuario JOIN usuarios ON usuarios.id_usuario = compras.id_vendedor AND usuarios.id_usuario = $id_usuario");
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 

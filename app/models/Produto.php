@@ -214,7 +214,9 @@ class Produto extends \Phalcon\Mvc\Model
         if(!$this->alterarQuantidade($idProduto, $idUser)) {
             return false;
         }
-        
+        $totVendas = $this->di->getDb()->query("SELECT total_vendas FROM usuarios WHERE id_usuario = $idVendedor")->fetchAll(PDO::FETCH_OBJ)->total_vendas;
+        $totVendas+=1;
+        $this->di->getDb()->query("UPDATE usuarios SET total_vendas = $totVendas WHERE id_usuario = $idVendedor");
         $saldoModel->atualizarSaldo($novoSaldo, $idUser);
     }
 

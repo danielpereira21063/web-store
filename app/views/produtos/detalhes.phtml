@@ -14,8 +14,9 @@
                             href="<?= BASE_URL . '/usuario/ver/'.$produto['id_usuario']?>"><?=$produto['vendedor']?></small></a></strong>
             </p>
             <small><p>Data de publição: <?= $produto['adicionado_em'] ?></p></small>
+            <p class="text-center"><?=$produto['descricao']?></p>
             <div class="preco text-danger text-center">
-                <h5>R$<?=$produto['preco']?></h5>
+                <h5>R$ <?=$produto['preco']?></h5>
             </div>
             <a class="btn btn-block btn-success text-center"
                 href="<?= BASE_URL . '/produtos/comprar/'.$produto['id_produto']?>">Comprar</a>

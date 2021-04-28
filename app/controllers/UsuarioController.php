@@ -1,7 +1,8 @@
 <?php
 class UsuarioController extends ControllerBase {
     public function indexAction() {
-        $this->response->redirect(BASE_URL . '/usuario/login');
+        $this->controleAcesso();
+        $this->response->redirect(BASE_URL . '/usuario/ver' );
     }
     
     public function signupAction() {
@@ -122,7 +123,6 @@ class UsuarioController extends ControllerBase {
         $this->view->tituloPagina = 'Editar perfil';
         $this->view->iconePagina = 'user.png';
         $idUsuario = $this->session->get('id_usuario');
-        // $this->view->fotoPerfil = $this->fotoPerfil();
         
         if($this->request->isPost()) {
             $user = new Usuario();
@@ -159,8 +159,30 @@ class UsuarioController extends ControllerBase {
         }
     }
     
+    public function verAction($id = null) {
+        $this->view->tituloPagina = 'Listar usuário(s)';
+        $this->view->iconePagina = '';
+        $usuario = new Usuario();
+        $this->view->allUsers = true;
+        if($id == null) {
+            if($this->request->isPost()) {
+                $nome = $this->request->getPost('pesquisa');
+                $usuario = new Usuario();
+                $result = $usuario->pesquisarUsuario($nome);
+                echo json_encode($result);
+                return false;
+            }
+        }
+
+        if($id != null) {
+            $this->view->allUsers = false;
+            $this->view->dados = $usuario::findFirstById_usuario($id);
+        }
+    }
+
     public function excluirAction() {
         
     }
+
 
 }

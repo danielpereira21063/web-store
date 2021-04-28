@@ -71,7 +71,7 @@ $.ajax({
                                 <!--  <small class="text-dark">${produto['descricao']}</small>  -->
                                 <p class="text-center text-success"><small><strong>${produto['quantidade']} Disponíveis</strong></small></p>
                             </div>
-                            <p><small><span class="text-dark" style="font-weight: bold;">Vendido por </span>&nbsp;<img width="28px" class="rounded-circle" src="http://127.0.0.1/web-store/files/usuarios/perfil/${produto['foto_vendedor']}"><strong><a href="http://127.0.0.1/web-store/usuario/ver/${produto['id_usuario']}">&nbsp;${produto['vendedor']}</small></a></strong></p>
+                            <p><small><span class="text-dark" style="font-weight: bold;">Vendido por </span>&nbsp;<img width="28px" class="rounded-circle" src="http://127.0.0.1/web-store/files/usuarios/perfil/${produto['foto_vendedor']}"><strong><a href="http://127.0.0.1/web-store/usuario/${produto['id_usuario']}">&nbsp;${produto['vendedor']}</small></a></strong></p>
                             <div class="preco text-danger text-center">
                                 <h5>R$ ${produto['preco']}</h5>
                             </div>

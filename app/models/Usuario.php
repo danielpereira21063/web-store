@@ -170,7 +170,15 @@ class Usuario extends \Phalcon\Mvc\Model
     }
 
 
+    public function pesquisarUsuario($nome) {
+        $query = $this->di->getDb()->query("SELECT * FROM usuarios WHERE nome LIKE '$nome%' ORDER BY nome");
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 
+    public function listarOrdemAlfabetica() {
+        $query = $this->di->getDb()->query('SELECT * FROM usuarios ORDER BY nome');
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
 
 
 

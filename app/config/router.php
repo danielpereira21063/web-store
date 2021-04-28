@@ -9,6 +9,7 @@ $router->add('/', ['controller' => 'index', 'action' => 'index']);
 $router->notFound(['controller' => 'index', 'action' => 'route404']);
 
 //controller usuario
+$router->add('/usuario/', ['controller' => 'usuario', 'action' => 'index']);
 $router->add('/usuario/signup', ['controller' => 'usuario', 'action' => 'signup']);
 $router->add('/usuario/login', ['controller' => 'usuario', 'action' => 'login']);
 $router->add('/usuario/logout', ['controller' => 'usuario', 'action' => 'logout']);
